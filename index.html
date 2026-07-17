@@ -199,16 +199,18 @@ html,body{height:100%;font-family:var(--fb);background:var(--cream);color:var(--
 
       <!-- ABOUT -->
       <div id="tab-about" class="panel">
-        <div class="field"><div class="fl">Bio</div><textarea class="fi" id="f-bio" rows="6">I'm a Statistics student at UIUC with a CS minor, focused on data analytics and machine learning. I've built real data pipelines and Tableau dashboards at my internship, lead a statistical consulting team at STATcom, and contribute to AI and frontend projects at SIGAIDA.</textarea></div>
+        <div class="field"><div class="fl">Bio</div><textarea class="fi" id="f-bio" rows="6">I got into data because I liked finding things other people miss. Patterns, trends, what comes next — that's the part that hooks me. There's something satisfying about sitting with a messy dataset and slowly pulling out the signal.</textarea></div>
         <div class="sg">Fact cards</div>
         <div class="field"><div class="fl">Label 1</div><input class="fi" id="fc1l" value="School"></div>
         <div class="field"><div class="fl">Value 1</div><input class="fi" id="fc1v" value="University of Illinois Urbana-Champaign"></div>
         <div class="field"><div class="fl">Label 2</div><input class="fi" id="fc2l" value="Major"></div>
-        <div class="field"><div class="fl">Value 2</div><input class="fi" id="fc2v" value="Statistics · CS Minor · Class of 2028"></div>
-        <div class="field"><div class="fl">Label 3</div><input class="fi" id="fc3l" value="Focus areas"></div>
-        <div class="field"><div class="fl">Value 3</div><input class="fi" id="fc3v" value="Data Analytics, ML, NLP, Data Storytelling"></div>
-        <div class="field"><div class="fl">Label 4</div><input class="fi" id="fc4l" value="Clubs"></div>
-        <div class="field"><div class="fl">Value 4</div><input class="fi" id="fc4v" value="SIGAIDA, STATcom"></div>
+        <div class="field"><div class="fl">Value 2</div><input class="fi" id="fc2v" value="Statistics - CS Minor"></div>
+        <div class="field"><div class="fl">Label 3</div><input class="fi" id="fc3l" value="Expected Graduation"></div>
+        <div class="field"><div class="fl">Value 3</div><input class="fi" id="fc3v" value="'28"></div>
+        <div class="field"><div class="fl">Label 4</div><input class="fi" id="fc4l" value="Focus areas"></div>
+        <div class="field"><div class="fl">Value 4</div><input class="fi" id="fc4v" value="Data Analytics, ML, NLP, Data Storytelling"></div>
+        <div class="field"><div class="fl">Label 5</div><input class="fi" id="fc5l" value="Clubs"></div>
+        <div class="field"><div class="fl">Value 5</div><input class="fi" id="fc5v" value="SIGAIDA, STATcom"></div>
       </div>
 
       <!-- SKILLS — dynamic -->
@@ -499,7 +501,7 @@ function up(){
   lh+=`<a href="${li}">LinkedIn</a><a href="${gh}">GitHub</a><a href="${tab}">Tableau</a>`;
   document.getElementById('s-links').innerHTML=lh;
 
-  document.getElementById('s-facts').innerHTML=[1,2,3,4].map(i=>`<div><div class="fact-lbl">${g('fc'+i+'l')}</div><div class="fact-val">${g('fc'+i+'v')}</div></div>`).join('');
+  document.getElementById('s-facts').innerHTML=[1,2,3,4,5].map(i=>`<div><div class="fact-lbl">${g('fc'+i+'l')}</div><div class="fact-val">${g('fc'+i+'v')}</div></div>`).join('');
 
   const curSkills=readSkills();
   document.getElementById('s-skills').innerHTML=curSkills.map(s=>`<div><div class="skill-group-title">${s.t}</div><div class="skill-list">${s.v.split(',').map(x=>x.trim()).filter(Boolean).join('<br>')}</div></div>`).join('');
@@ -568,7 +570,7 @@ function buildExport(){
   const res=g('f-res'),li=g('f-li'),gh=g('f-gh'),tab=g('f-tab'),email=g('f-email');
   const curExps=readExps();
   const curProjs=readProjs();
-  const facts=[1,2,3,4].map(i=>({l:g('fc'+i+'l'),v:g('fc'+i+'v')}));
+  const facts=[1,2,3,4,5].map(i=>({l:g('fc'+i+'l'),v:g('fc'+i+'v')}));
   const curSkills=readSkills();
   const misc=[1,2,3,4].map(i=>({l:g('m'+i+'l'),v:g('m'+i+'v')}));
   const photoTag=photoData?`<img src="${photoData}" alt="${fn}" style="display:block;position:absolute;top:8px;left:8px;width:138px;height:168px;object-fit:cover;object-position:top center;clip-path:polygon(6% 0%, 94% 2%, 100% 6%, 98% 94%, 92% 100%, 5% 98%, 0% 92%, 2% 5%);">`:'';
