@@ -1,585 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio Editor</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --green:#1B3A0D;
-  --green-mid:#2D5016;
-  --green-soft:#6B9A45;
-  --green-pale:#EDF3E6;
-  --orange:#B84A18;
-  --cream:#F6F1EA;
-  --ink:#141210;
-  --ink-mid:#3D3A35;
-  --ink-light:#7A766E;
-  --warm-white:#FDFAF5;
-  --border:rgba(20,18,16,0.1);
-  --fh:'Cormorant',Georgia,serif;
-  --fb:'Jost',system-ui,sans-serif;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;font-family:var(--fb);background:var(--cream);color:var(--ink);font-size:14px;line-height:1.6;}
-.app{display:grid;grid-template-columns:300px 1fr;height:100vh;overflow:hidden;}
-
-/* EDITOR */
-.editor{background:var(--warm-white);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
-.editor-header{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--orange);}
-.etitle{font-size:12px;font-weight:500;color:var(--ink);letter-spacing:0.02em;}
-.esub{font-size:11px;color:var(--ink-light);margin-left:auto;}
-.tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;}
-.tab{flex:1;min-width:44px;padding:8px 3px;font-size:10px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-light);background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
-.tab.active{color:var(--green-mid);border-bottom-color:var(--green-mid);}
-.editor-body{flex:1;overflow-y:auto;padding:13px 16px;display:flex;flex-direction:column;gap:11px;}
-.panel{display:none;flex-direction:column;gap:11px;}
-.panel.active{display:flex;}
-.field{display:flex;flex-direction:column;gap:3px;}
-.fl{font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-light);}
-.fi{font-family:var(--fb);font-size:12px;color:var(--ink);background:var(--cream);border:1px solid var(--border);border-radius:5px;padding:6px 9px;resize:none;transition:border-color 0.15s;line-height:1.5;width:100%;}
-.fi:focus{outline:none;border-color:var(--green-mid);}
-.sg{font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--green-mid);padding:5px 0 2px;border-bottom:1px solid var(--green-pale);margin-top:6px;}
-.pb{background:var(--cream);border:1px solid var(--border);border-radius:7px;padding:10px;display:flex;flex-direction:column;gap:7px;position:relative;}
-.pb-num{font-size:10px;font-weight:500;color:var(--ink-light);letter-spacing:0.05em;text-transform:uppercase;}
-.pb-head{display:flex;align-items:center;justify-content:space-between;gap:6px;}
-.st{display:flex;gap:3px;}
-.sb{font-size:10px;font-weight:400;padding:2px 7px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--ink-light);cursor:pointer;}
-.sb.on{background:var(--green-pale);color:var(--green-mid);border-color:#B5D190;}
-.btn-add{display:flex;align-items:center;gap:5px;font-family:var(--fb);font-size:11px;font-weight:500;color:var(--green-mid);background:var(--green-pale);border:none;border-radius:5px;padding:7px 12px;cursor:pointer;letter-spacing:0.04em;transition:background 0.15s;margin-top:4px;}
-.btn-add:hover{background:#d6eac3;}
-.btn-remove{font-size:10px;font-weight:400;color:var(--ink-light);background:transparent;border:1px solid var(--border);border-radius:4px;padding:2px 7px;cursor:pointer;transition:color 0.15s,border-color 0.15s;flex-shrink:0;}
-.btn-remove:hover{color:#c0392b;border-color:#c0392b;}
-.editor-footer{padding:11px 16px;border-top:1px solid var(--border);display:flex;gap:7px;}
-.btn-u{flex:1;background:var(--green-mid);color:#fff;font-family:var(--fb);font-size:12px;font-weight:500;padding:8px;border:none;border-radius:5px;cursor:pointer;letter-spacing:0.02em;}
-.btn-u:hover{background:var(--green);}
-.btn-e{background:transparent;color:var(--orange);font-family:var(--fb);font-size:12px;font-weight:400;padding:8px 12px;border:1px solid rgba(184,74,24,0.3);border-radius:5px;cursor:pointer;}
-
-/* PREVIEW */
-.preview{overflow-y:auto;background:var(--cream);position:relative;}
-.leaf-layer{position:fixed;top:0;right:0;width:180px;height:100vh;pointer-events:none;z-index:0;overflow:hidden;}
-.leaf{position:absolute;opacity:0.07;}
-.site{max-width:700px;margin:0 auto;padding:0 2.5rem 7rem;position:relative;z-index:1;}
-
-/* NAV */
-.snav{position:sticky;top:0;background:rgba(246,241,234,0.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 2.5rem;margin:0 -2.5rem;height:50px;display:flex;align-items:center;justify-content:space-between;z-index:10;}
-.snav-name{font-family:var(--fh);font-size:19px;font-weight:400;color:var(--ink);letter-spacing:0.01em;}
-.snav ul{display:flex;gap:2rem;list-style:none;}
-.snav a{font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-light);text-decoration:none;transition:color 0.15s;}
-.snav a:hover{color:var(--ink);}
-
-/* HERO */
-.hero{padding:5rem 0 4rem;}
-.hero-inner{display:grid;grid-template-columns:160px 1fr;gap:2.5rem;align-items:start;}
-
-/* PHOTO — interesting organic frame */
-.photo-frame{width:155px;height:185px;position:relative;flex-shrink:0;}
-.photo-frame svg.frame-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
-.photo-frame img,.photo-frame .photo-placeholder{
-  width:138px;height:168px;
-  position:absolute;top:8px;left:8px;
-  object-fit:cover;object-position:top center;
-}
-.photo-placeholder{
-  background:var(--green-pale);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:6px;cursor:pointer;
-  clip-path:polygon(6% 0%, 94% 2%, 100% 6%, 98% 94%, 92% 100%, 5% 98%, 0% 92%, 2% 5%);
-}
-.photo-placeholder:hover{background:#d6eac3;}
-.photo-placeholder span{font-size:9px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-light);text-align:center;line-height:1.5;padding:0 8px;}
-.photo-frame img{
-  clip-path:polygon(6% 0%, 94% 2%, 100% 6%, 98% 94%, 92% 100%, 5% 98%, 0% 92%, 2% 5%);
-}
-
-.hero-text{}
-.hero-name{font-family:var(--fh);font-weight:300;font-size:clamp(44px,6vw,72px);line-height:0.95;letter-spacing:-0.01em;color:var(--ink);margin-bottom:1.5rem;}
-.hero-name .last{color:var(--green-mid);}
-.hero-tag{font-family:var(--fh);font-size:18px;font-weight:300;font-style:italic;color:var(--ink-mid);line-height:1.65;margin-bottom:2rem;}
-.hero-links{display:flex;gap:1.75rem;flex-wrap:wrap;align-items:center;}
-.hero-links a{font-family:var(--fb);font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.15s;}
-.hero-links a:hover{color:var(--orange);}
-.hero-links a.primary{color:var(--ink);font-weight:500;}
-
-/* SECTIONS */
-.sec{padding:3.5rem 0;border-top:1px solid var(--border);}
-.sec-label{font-family:var(--fh);font-size:28px;font-weight:400;color:var(--ink);letter-spacing:-0.01em;margin-bottom:2rem;}
-
-/* ABOUT */
-.about-wrap{display:grid;grid-template-columns:1fr 200px;gap:3.5rem;align-items:start;}
-.about-bio{font-family:var(--fh);font-size:18px;font-weight:300;color:var(--ink-mid);line-height:1.85;}
-.facts-list{display:flex;flex-direction:column;gap:1.4rem;}
-.fact-lbl{font-size:10px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-light);margin-bottom:3px;}
-.fact-val{font-family:var(--fh);font-size:15px;font-weight:400;color:var(--ink);line-height:1.45;}
-
-/* SKILLS */
-.skills-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem 3rem;}
-.skill-group-title{font-size:10px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--green-mid);margin-bottom:0.6rem;}
-.skill-list{font-family:var(--fh);font-size:16px;font-weight:300;color:var(--ink-mid);line-height:2;}
-
-/* EXPERIENCE */
-.exp-list{display:flex;flex-direction:column;gap:2.75rem;}
-.exp-item{display:grid;grid-template-columns:90px 1fr;gap:2rem;}
-.exp-date{font-size:11px;font-weight:400;letter-spacing:0.04em;color:var(--ink-light);padding-top:3px;}
-.exp-role{font-family:var(--fh);font-size:19px;font-weight:400;color:var(--ink);margin-bottom:2px;line-height:1.2;}
-.exp-org{font-size:11px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--orange);margin-bottom:7px;}
-.exp-desc{font-size:13px;font-weight:400;color:var(--ink-mid);line-height:1.75;}
-
-/* PROJECTS */
-.proj-list{display:flex;flex-direction:column;gap:3rem;}
-.proj-item{display:grid;grid-template-columns:90px 1fr;gap:2rem;}
-.proj-status{font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-light);padding-top:3px;}
-.proj-status.live{color:var(--green-soft);}
-.proj-status.building{color:var(--orange);}
-.proj-name{font-family:var(--fh);font-size:22px;font-weight:400;color:var(--ink);margin-bottom:0.4rem;line-height:1.15;}
-.proj-name a{color:inherit;text-decoration:none;border-bottom:1px solid var(--border);transition:border-color 0.15s,color 0.15s;}
-.proj-name a:hover{color:var(--orange);}
-.proj-desc{font-size:13px;font-weight:400;color:var(--ink-mid);line-height:1.75;margin-bottom:0.6rem;}
-.proj-tags{display:flex;flex-wrap:wrap;gap:8px;}
-.proj-tag{font-size:10px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--green-mid);}
-
-/* MISC */
-.misc-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:2.5rem 3.5rem;}
-.misc-label{font-size:10px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;}
-.misc-val{font-family:var(--fh);font-size:16px;font-weight:300;color:var(--ink-mid);line-height:1.7;}
-
-/* CONTACT */
-.contact-line{font-family:var(--fh);font-size:26px;font-weight:300;font-style:italic;color:var(--ink-mid);line-height:1.55;max-width:460px;margin-bottom:2rem;}
-.contact-links{display:flex;gap:2rem;flex-wrap:wrap;}
-.contact-links a{font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.15s;}
-.contact-links a:hover{color:var(--orange);}
-
-.footer-svg{width:100%;height:56px;display:block;margin-top:5rem;opacity:0.12;}
-</style>
-</head>
-<body>
-<div class="app">
-
-  <!-- ═══ EDITOR ═══ -->
-  <div class="editor">
-    <div class="editor-header">
-      <div class="dot"></div>
-      <span class="etitle">Edit portfolio</span>
-      <span class="esub">live preview →</span>
-    </div>
-    <div class="tabs">
-      <button class="tab active" onclick="sw('hero',this)">Intro</button>
-      <button class="tab" onclick="sw('about',this)">About</button>
-      <button class="tab" onclick="sw('skills',this)">Skills</button>
-      <button class="tab" onclick="sw('exp',this)">Exp</button>
-      <button class="tab" onclick="sw('projects',this)">Projects</button>
-      <button class="tab" onclick="sw('misc',this)">Misc</button>
-    </div>
-
-    <div class="editor-body">
-
-      <!-- INTRO -->
-      <div id="tab-hero" class="panel active">
-        <div class="field">
-          <div class="fl">Your photo</div>
-          <label for="f-photo" style="cursor:pointer;margin-top:3px;">
-            <div id="photo-editor-preview" style="width:100%;height:110px;border-radius:6px;background:var(--cream);border:1.5px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;overflow:hidden;transition:border-color 0.2s;">
-              <span style="font-size:20px;opacity:0.35;">🖼</span>
-              <span style="font-size:10px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-light);">Click to upload photo</span>
-            </div>
-          </label>
-          <input type="file" id="f-photo" accept="image/*" style="display:none;" onchange="handlePhoto(this)">
-        </div>
-        <div class="field"><div class="fl">First name</div><input class="fi" id="f-fn" value="Sanjana"></div>
-        <div class="field"><div class="fl">Last name (shows in green)</div><input class="fi" id="f-ln" value="Kambhampati"></div>
-        <div class="field"><div class="fl">Tagline</div><textarea class="fi" id="f-tagline" rows="3">Stats student at UIUC with a thing for clean data, clear insights, and problems worth solving.</textarea></div>
-        <div class="field"><div class="fl">Email</div><input class="fi" id="f-email" value="your@email.com"></div>
-        <div class="field"><div class="fl">LinkedIn URL</div><input class="fi" id="f-li" value="https://linkedin.com/in/yourhandle"></div>
-        <div class="field"><div class="fl">GitHub URL</div><input class="fi" id="f-gh" value="https://github.com/yourhandle"></div>
-        <div class="field"><div class="fl">Tableau URL</div><input class="fi" id="f-tab" value="https://public.tableau.com/yourprofile"></div>
-        <div class="field"><div class="fl">Resume URL (leave blank to hide)</div><input class="fi" id="f-res" value=""></div>
-      </div>
-
-      <!-- ABOUT -->
-      <div id="tab-about" class="panel">
-        <div class="field"><div class="fl">Bio</div><textarea class="fi" id="f-bio" rows="6">I got into data because I liked finding things other people miss. Patterns, trends, what comes next — that's the part that hooks me. There's something satisfying about sitting with a messy dataset and slowly pulling out the signal.</textarea></div>
-        <div class="sg">Fact cards</div>
-        <div class="field"><div class="fl">Label 1</div><input class="fi" id="fc1l" value="School"></div>
-        <div class="field"><div class="fl">Value 1</div><input class="fi" id="fc1v" value="University of Illinois Urbana-Champaign"></div>
-        <div class="field"><div class="fl">Label 2</div><input class="fi" id="fc2l" value="Major"></div>
-        <div class="field"><div class="fl">Value 2</div><input class="fi" id="fc2v" value="Statistics - CS Minor"></div>
-        <div class="field"><div class="fl">Label 3</div><input class="fi" id="fc3l" value="Expected Graduation"></div>
-        <div class="field"><div class="fl">Value 3</div><input class="fi" id="fc3v" value="'28"></div>
-        <div class="field"><div class="fl">Label 4</div><input class="fi" id="fc4l" value="Focus areas"></div>
-        <div class="field"><div class="fl">Value 4</div><input class="fi" id="fc4v" value="Data Analytics, ML, NLP, Data Storytelling"></div>
-        <div class="field"><div class="fl">Label 5</div><input class="fi" id="fc5l" value="Clubs"></div>
-        <div class="field"><div class="fl">Value 5</div><input class="fi" id="fc5v" value="SIGAIDA, STATcom"></div>
-      </div>
-
-      <!-- SKILLS — dynamic -->
-      <div id="tab-skills" class="panel">
-        <div id="skill-editor-list"></div>
-        <button class="btn-add" onclick="addSkill()">+ Add skill group</button>
-      </div>
-
-      <!-- EXPERIENCE — dynamic -->
-      <div id="tab-exp" class="panel">
-        <div id="exp-editor-list"></div>
-        <button class="btn-add" onclick="addExp()">+ Add experience</button>
-      </div>
-
-      <!-- PROJECTS — dynamic -->
-      <div id="tab-projects" class="panel">
-        <div id="proj-editor-list"></div>
-        <button class="btn-add" onclick="addProj()">+ Add project</button>
-      </div>
-
-      <!-- MISC -->
-      <div id="tab-misc" class="panel">
-        <div class="sg">Card 1</div>
-        <div class="field"><div class="fl">Label</div><input class="fi" id="m1l" value="Currently reading"></div>
-        <div class="field"><div class="fl">Value</div><textarea class="fi" id="m1v" rows="2">Storytelling with Data · Thinking Fast and Slow · Naked Statistics</textarea></div>
-        <div class="sg">Card 2</div>
-        <div class="field"><div class="fl">Label</div><input class="fi" id="m2l" value="Outside of code"></div>
-        <div class="field"><div class="fl">Value</div><textarea class="fi" id="m2v" rows="2">Daily meditation, working towards my first pull-up, data storytelling reels on Instagram.</textarea></div>
-        <div class="sg">Card 3</div>
-        <div class="field"><div class="fl">Label</div><input class="fi" id="m3l" value="Fun fact"></div>
-        <div class="field"><div class="fl">Value</div><textarea class="fi" id="m3v" rows="2">I'm building an AI that gives life advice grounded in the Bhagavad Gita. It cites the verse.</textarea></div>
-        <div class="sg">Card 4</div>
-        <div class="field"><div class="fl">Label</div><input class="fi" id="m4l" value="Ask me about"></div>
-        <div class="field"><div class="fl">Value</div><textarea class="fi" id="m4v" rows="2">Data pipelines, statistical consulting, ancient philosophy, or visualising a distribution.</textarea></div>
-      </div>
-
-    </div>
-    <div class="editor-footer">
-      <button class="btn-u" onclick="up()">↺ Update preview</button>
-      <button class="btn-e" onclick="ex()">⬇ Export</button>
-    </div>
-  </div>
-
-  <!-- ═══ PREVIEW ═══ -->
-  <div class="preview" id="pscroll">
-    <div class="leaf-layer" id="ll" aria-hidden="true"></div>
-    <div class="site">
-
-      <nav class="snav">
-        <div class="snav-name" id="s-logo">Sanjana Kambhampati</div>
-        <ul>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Experience</a></li>
-          <li><a href="#">Projects</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </nav>
-
-      <!-- HERO: photo LEFT, text RIGHT -->
-      <div class="hero">
-        <div class="hero-inner">
-          <div class="photo-frame" onclick="document.getElementById('f-photo').click()" style="cursor:pointer;">
-            <!-- organic decorative border SVG -->
-            <svg class="frame-svg" viewBox="0 0 155 185" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 4 C40 1 110 0 144 6 C152 8 155 18 154 50 C153 90 156 140 150 172 C148 180 138 184 108 184 C78 184 30 186 12 182 C4 180 1 170 2 140 C3 100 0 50 4 20 C5 12 8 5 12 4Z"
-                fill="none" stroke="#2D5016" stroke-width="1.5" opacity="0.35"/>
-              <path d="M8 8 C36 3 112 2 146 8 C154 10 157 22 156 54 C155 96 158 144 152 176 C150 184 139 188 108 187 C76 187 28 190 8 186 C0 184 -3 172 -2 140 C-1 96 -4 46 2 18 C3 10 6 9 8 8Z"
-                fill="none" stroke="#2D5016" stroke-width="0.5" opacity="0.18"/>
-              <!-- small leaf accents at corners -->
-              <ellipse cx="6" cy="10" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(-30 6 10)"/>
-              <ellipse cx="149" cy="8" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(30 149 8)"/>
-              <ellipse cx="8" cy="176" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(30 8 176)"/>
-              <ellipse cx="148" cy="177" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(-30 148 177)"/>
-            </svg>
-            <div class="photo-placeholder" id="s-photo-placeholder">
-              <span style="font-size:22px;opacity:0.3;">🖼</span>
-              <span>Upload in Intro tab</span>
-            </div>
-            <img id="s-photo" src="" alt="Photo" style="display:none;position:absolute;top:8px;left:8px;width:138px;height:168px;object-fit:cover;object-position:top center;clip-path:polygon(6% 0%, 94% 2%, 100% 6%, 98% 94%, 92% 100%, 5% 98%, 0% 92%, 2% 5%);">
-          </div>
-
-          <div class="hero-text">
-            <div class="hero-name"><span id="s-fn">Sanjana</span><br><span class="last" id="s-ln">Kambhampati</span></div>
-            <div class="hero-tag" id="s-tagline">Stats student at UIUC with a thing for clean data, clear insights, and problems worth solving.</div>
-            <div class="hero-links" id="s-links"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="sec">
-        <div class="sec-label">About</div>
-        <div class="about-wrap">
-          <p class="about-bio" id="s-bio"></p>
-          <div class="facts-list" id="s-facts"></div>
-        </div>
-      </div>
-
-      <div class="sec">
-        <div class="sec-label">Skills</div>
-        <div class="skills-wrap" id="s-skills"></div>
-      </div>
-
-      <div class="sec">
-        <div class="sec-label">Experience</div>
-        <div class="exp-list" id="s-exp"></div>
-      </div>
-
-      <div class="sec">
-        <div class="sec-label">Projects</div>
-        <div class="proj-list" id="s-projs"></div>
-      </div>
-
-      <div class="sec">
-        <div class="sec-label">Miscellaneous</div>
-        <div class="misc-wrap" id="s-misc"></div>
-      </div>
-
-      <div class="sec">
-        <div class="sec-label">Contact</div>
-        <div class="contact-line">Open to internships, collaborations, or just a good conversation about data.</div>
-        <div class="contact-links" id="s-contact"></div>
-      </div>
-
-      <svg class="footer-svg" id="fl-svg" viewBox="0 0 700 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
-    </div>
-  </div>
-</div>
-
-<script>
-// ── state ──────────────────────────────────────────────
-let photoData = '';
-
-let skills = [
-  {t:'Languages', v:'Python, SQL, Java, C++'},
-  {t:'Data & ML', v:'Pandas, Tableau, RAG Pipelines, ChromaDB, scikit-learn'},
-  {t:'Tools', v:'Flask, Streamlit, Git, Anthropic API'},
-];
-
-let exps = [
-  {d:'Summer 2026', r:'Data Analyst Intern', o:'[Company Name]', x:'Built automated data pipelines and Tableau dashboards to surface insights for internal stakeholders.'},
-  {d:'2025 – present', r:'Lead', o:'STATcom · UIUC', x:'Leading a statistical consulting team helping campus organizations with data analysis and experimental design.'},
-  {d:'2025 – present', r:'Member, Frontend & ML Teams', o:'SIGAIDA · UIUC', x:'Contributing to AI and data projects across frontend development and machine learning tracks.'},
-];
-
-let projs = [
-  {n:'KrishnaGPT', d:'A RAG app grounded in the Bhagavad Gita. Ask anything, get wisdom cited to the verse.', t:'Python, ChromaDB, Anthropic API, RAG, Flask', l:'', s:'building'},
-  {n:'Data Analysis Project', d:'EDA and insights on a real-world dataset — the kind of analysis that actually tells a story.', t:'Python, Pandas, Matplotlib', l:'', s:'soon'},
-  {n:'Internship Dashboards', d:'Data pipelines and Tableau dashboards built during my internship. Real data, real stakeholders.', t:'Tableau, SQL, Data Pipelines', l:'', s:'live'},
-];
-
-// ── helpers ────────────────────────────────────────────
-function g(id){return(document.getElementById(id)||{}).value||'';}
-function sw(n,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+n).classList.add('active');el.classList.add('active');}
-
-// ── photo ──────────────────────────────────────────────
-function handlePhoto(input){
-  const file=input.files[0]; if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    photoData=e.target.result;
-    const prev=document.getElementById('photo-editor-preview');
-    prev.innerHTML=`<img src="${photoData}" style="width:100%;height:100%;object-fit:cover;object-position:top center;">`;
-    prev.style.border='none';prev.style.padding='0';
-    document.getElementById('s-photo-placeholder').style.display='none';
-    const img=document.getElementById('s-photo');
-    img.src=photoData; img.style.display='block';
-  };
-  reader.readAsDataURL(file);
-}
-
-// ── skills editor ─────────────────────────────────────
-function renderSkillEditor(){
-  const el=document.getElementById('skill-editor-list');
-  el.innerHTML=skills.map((s,i)=>`
-    <div class="pb" style="margin-bottom:8px;">
-      <div class="pb-head">
-        <span class="pb-num">Group ${i+1}</span>
-        <button class="btn-remove" onclick="removeSkill(${i})">Remove</button>
-      </div>
-      <div class="field"><div class="fl">Category name</div><input class="fi" id="skt${i}" value="${s.t}" placeholder="e.g. Languages"></div>
-      <div class="field"><div class="fl">Skills (comma separated)</div><input class="fi" id="skv${i}" value="${s.v}" placeholder="e.g. Python, SQL"></div>
-    </div>`).join('');
-}
-
-function addSkill(){
-  skills.push({t:'',v:''});
-  renderSkillEditor();
-}
-
-function removeSkill(i){
-  skills.splice(i,1);
-  renderSkillEditor();
-}
-
-function readSkills(){
-  return skills.map((_,i)=>({t:g('skt'+i), v:g('skv'+i)}));
-}
-
-// ── experience editor ──────────────────────────────────
-function renderExpEditor(){
-  const el=document.getElementById('exp-editor-list');
-  el.innerHTML=exps.map((e,i)=>`
-    <div class="pb" style="margin-bottom:8px;">
-      <div class="pb-head">
-        <span class="pb-num">Role ${i+1}</span>
-        <button class="btn-remove" onclick="removeExp(${i})">Remove</button>
-      </div>
-      <div class="field"><div class="fl">Date</div><input class="fi" id="ed${i}" value="${e.d}"></div>
-      <div class="field"><div class="fl">Role</div><input class="fi" id="er${i}" value="${e.r}"></div>
-      <div class="field"><div class="fl">Organisation</div><input class="fi" id="eo${i}" value="${e.o}"></div>
-      <div class="field"><div class="fl">Description</div><textarea class="fi" id="ex${i}" rows="2">${e.x}</textarea></div>
-    </div>`).join('');
-}
-
-function addExp(){
-  exps.push({d:'',r:'',o:'',x:''});
-  renderExpEditor();
-}
-
-function removeExp(i){
-  exps.splice(i,1);
-  renderExpEditor();
-}
-
-function readExps(){
-  return exps.map((_,i)=>({
-    d:g('ed'+i), r:g('er'+i), o:g('eo'+i), x:g('ex'+i)
-  }));
-}
-
-// ── project editor ─────────────────────────────────────
-function renderProjEditor(){
-  const el=document.getElementById('proj-editor-list');
-  el.innerHTML=projs.map((p,i)=>`
-    <div class="pb" style="margin-bottom:8px;">
-      <div class="pb-head">
-        <span class="pb-num">Project ${i+1}</span>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <div class="st">
-            <button class="sb${p.s==='building'?' on':''}" onclick="setProjSt(${i},'building',this)">Building</button>
-            <button class="sb${p.s==='live'?' on':''}" onclick="setProjSt(${i},'live',this)">Live</button>
-            <button class="sb${p.s==='soon'?' on':''}" onclick="setProjSt(${i},'soon',this)">Soon</button>
-          </div>
-          <button class="btn-remove" onclick="removeProj(${i})">Remove</button>
-        </div>
-      </div>
-      <input class="fi" id="pn${i}" value="${p.n}" placeholder="Project name">
-      <textarea class="fi" id="pd${i}" rows="2" placeholder="Description">${p.d}</textarea>
-      <input class="fi" id="pt${i}" value="${p.t}" placeholder="Tags (comma separated)">
-      <input class="fi" id="pl${i}" value="${p.l}" placeholder="URL (optional)">
-    </div>`).join('');
-}
-
-function setProjSt(i,s,btn){
-  projs[i].s=s;
-  btn.closest('.st').querySelectorAll('.sb').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-}
-
-function addProj(){
-  projs.push({n:'',d:'',t:'',l:'',s:'soon'});
-  renderProjEditor();
-}
-
-function removeProj(i){
-  projs.splice(i,1);
-  renderProjEditor();
-}
-
-function readProjs(){
-  return projs.map((p,i)=>({
-    n:g('pn'+i), d:g('pd'+i), t:g('pt'+i), l:g('pl'+i), s:p.s
-  }));
-}
-
-// ── update preview ─────────────────────────────────────
-function up(){
-  const fn=g('f-fn'), ln=g('f-ln');
-  document.getElementById('s-logo').textContent=fn+' '+ln;
-  document.getElementById('s-fn').textContent=fn;
-  document.getElementById('s-ln').textContent=ln;
-  document.getElementById('s-tagline').textContent=g('f-tagline');
-  document.getElementById('s-bio').textContent=g('f-bio');
-
-  const res=g('f-res'),li=g('f-li'),gh=g('f-gh'),tab=g('f-tab');
-  let lh='';
-  if(res) lh+=`<a href="${res}" target="_blank" class="primary">Resume</a>`;
-  lh+=`<a href="${li}">LinkedIn</a><a href="${gh}">GitHub</a><a href="${tab}">Tableau</a>`;
-  document.getElementById('s-links').innerHTML=lh;
-
-  document.getElementById('s-facts').innerHTML=[1,2,3,4,5].map(i=>`<div><div class="fact-lbl">${g('fc'+i+'l')}</div><div class="fact-val">${g('fc'+i+'v')}</div></div>`).join('');
-
-  const curSkills=readSkills();
-  document.getElementById('s-skills').innerHTML=curSkills.map(s=>`<div><div class="skill-group-title">${s.t}</div><div class="skill-list">${s.v.split(',').map(x=>x.trim()).filter(Boolean).join('<br>')}</div></div>`).join('');
-
-  const curExps=readExps();
-  document.getElementById('s-exp').innerHTML=curExps.map(e=>`
-    <div class="exp-item">
-      <div class="exp-date">${e.d}</div>
-      <div>
-        <div class="exp-role">${e.r}</div>
-        <div class="exp-org">${e.o}</div>
-        <div class="exp-desc">${e.x}</div>
-      </div>
-    </div>`).join('');
-
-  const curProjs=readProjs();
-  document.getElementById('s-projs').innerHTML=curProjs.map(p=>{
-    const sc=p.s==='live'?'live':p.s==='building'?'building':'';
-    const st=p.s==='live'?'Live':p.s==='building'?'In progress':'Coming soon';
-    const nm=p.l?`<a href="${p.l}" target="_blank">${p.n}</a>`:p.n;
-    const tags=p.t.split(',').map(t=>`<span class="proj-tag">${t.trim()}</span>`).filter(t=>t!='<span class="proj-tag"></span>').join('');
-    return`<div class="proj-item">
-      <div class="proj-status ${sc}">${st}</div>
-      <div>
-        <div class="proj-name">${nm}</div>
-        <div class="proj-desc">${p.d}</div>
-        <div class="proj-tags">${tags}</div>
-      </div>
-    </div>`;
-  }).join('');
-
-  document.getElementById('s-misc').innerHTML=[1,2,3,4].map(i=>`<div><div class="misc-label">${g('m'+i+'l')}</div><div class="misc-val">${g('m'+i+'v')}</div></div>`).join('');
-
-  const email=g('f-email');
-  document.getElementById('s-contact').innerHTML=`<a href="mailto:${email}">Email</a><a href="${li}">LinkedIn</a><a href="${gh}">GitHub</a><a href="${tab}">Tableau</a>`;
-}
-
-// ── leaves ─────────────────────────────────────────────
-function initLeaves(){
-  const ll=document.getElementById('ll');
-  const ld=[{x:10,y:90,s:32,r:18,sp:0.04},{x:65,y:210,s:22,r:-22,sp:0.07},{x:120,y:60,s:40,r:42,sp:0.03},{x:80,y:340,s:28,r:-6,sp:0.05},{x:15,y:460,s:44,r:58,sp:0.025},{x:150,y:380,s:18,r:-32,sp:0.08},{x:45,y:540,s:36,r:26,sp:0.035},{x:130,y:640,s:24,r:-44,sp:0.06},{x:5,y:720,s:30,r:68,sp:0.045},{x:100,y:800,s:42,r:-10,sp:0.03}];
-  ll.innerHTML=ld.map((l,i)=>`<svg class="leaf" id="lf${i}" style="left:${l.x}px;top:${l.y}px;width:${l.s}px;height:${l.s}px;" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 3 C30 3 37 13 37 22 C37 31 29 37 20 37 C11 37 5 29 7 19 C9 10 13 3 20 3Z" fill="#1B3A0D" transform="rotate(${l.r} 20 20)"/><path d="M20 6 Q22 20 20 36" stroke="#EDF3E6" stroke-width="0.8" fill="none" opacity="0.6" transform="rotate(${l.r} 20 20)"/></svg>`).join('');
-  const ps=document.getElementById('pscroll');
-  ps.addEventListener('scroll',()=>{
-    const sy=ps.scrollTop;
-    ld.forEach((l,i)=>{const el=document.getElementById('lf'+i);if(el){const o=sy*l.sp;el.style.transform=`translateY(${o}px) rotate(${o*0.35}deg)`;}});
-  });
-}
-
-function drawFooter(){
-  const s=document.getElementById('fl-svg'); if(!s)return;
-  let h='';
-  for(let i=0;i<16;i++){
-    const x=((i/15)*680+10).toFixed(1);
-    const sz=6+Math.random()*16;
-    const cy=(28+Math.sin(i*0.8)*14).toFixed(1);
-    const ro=(Math.random()*360).toFixed(0);
-    h+=`<ellipse cx="${x}" cy="${cy}" rx="${(sz*0.42).toFixed(1)}" ry="${sz.toFixed(1)}" fill="#1B3A0D" transform="rotate(${ro} ${x} ${cy})"/>`;
-  }
-  s.innerHTML=h;
-}
-
-// ── export ─────────────────────────────────────────────
-function buildExport(){
-  const fn=g('f-fn'),ln=g('f-ln'),full=fn+' '+ln;
-  const res=g('f-res'),li=g('f-li'),gh=g('f-gh'),tab=g('f-tab'),email=g('f-email');
-  const curExps=readExps();
-  const curProjs=readProjs();
-  const facts=[1,2,3,4,5].map(i=>({l:g('fc'+i+'l'),v:g('fc'+i+'v')}));
-  const curSkills=readSkills();
-  const misc=[1,2,3,4].map(i=>({l:g('m'+i+'l'),v:g('m'+i+'v')}));
-  const photoTag=photoData?`<img src="${photoData}" alt="${fn}" style="display:block;position:absolute;top:8px;left:8px;width:138px;height:168px;object-fit:cover;object-position:top center;clip-path:polygon(6% 0%, 94% 2%, 100% 6%, 98% 94%, 92% 100%, 5% 98%, 0% 92%, 2% 5%);">`:'';
-
-  return`<!DOCTYPE html>
-<html lang="en">
-<head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>${full}</title>
+<title>Sanjana Kambhampati</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--green:#1B3A0D;--green-mid:#2D5016;--green-soft:#6B9A45;--green-pale:#EDF3E6;--orange:#B84A18;--cream:#F6F1EA;--ink:#141210;--ink-mid:#3D3A35;--ink-light:#7A766E;--warm-white:#FDFAF5;--border:rgba(20,18,16,0.1);--fh:'Cormorant',Georgia,serif;--fb:'Jost',system-ui,sans-serif;}
@@ -635,7 +58,7 @@ nav ul{display:flex;gap:2rem;list-style:none;}nav a{font-size:11px;font-weight:4
 </head>
 <body>
 <div class="leaf-layer" id="ll" aria-hidden="true"></div>
-<nav><a href="#" class="logo">${full}</a><ul><li><a href="#about">About</a></li><li><a href="#exp">Experience</a></li><li><a href="#projects">Projects</a></li><li><a href="#contact">Contact</a></li></ul></nav>
+<nav><a href="#" class="logo">Sanjana Kambhampati</a><ul><li><a href="#about">About</a></li><li><a href="#exp">Experience</a></li><li><a href="#projects">Projects</a></li><li><a href="#contact">Contact</a></li></ul></nav>
 <div class="site">
 <div class="hero">
   <div class="hero-inner">
@@ -648,44 +71,59 @@ nav ul{display:flex;gap:2rem;list-style:none;}nav a{font-size:11px;font-weight:4
         <ellipse cx="8" cy="176" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(30 8 176)"/>
         <ellipse cx="148" cy="177" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(-30 148 177)"/>
       </svg>
-      ${photoTag}
     </div>
     <div>
-      <div class="hero-name">${fn}<br><span class="last">${ln}</span></div>
-      <div class="hero-tag">${g('f-tagline')}</div>
+      <div class="hero-name">Sanjana<br><span class="last">Kambhampati</span></div>
+      <div class="hero-tag">Stats student at UIUC with a thing for clean data, clear insights, and problems worth solving.</div>
       <div class="hero-links">
-        ${res?`<a href="${res}" target="_blank" class="primary">Resume</a>`:''}
-        <a href="${li}">LinkedIn</a><a href="${gh}">GitHub</a><a href="${tab}">Tableau</a>
+        <a href="https://linkedin.com/in/yourhandle">LinkedIn</a><a href="https://github.com/yourhandle">GitHub</a><a href="https://public.tableau.com/yourprofile">Tableau</a>
       </div>
     </div>
   </div>
 </div>
 <div class="sec" id="about"><div class="sec-label">About</div>
-  <div class="about-wrap"><p class="about-bio">${g('f-bio')}</p>
-    <div class="facts-list">${facts.map(f=>`<div><div class="fact-lbl">${f.l}</div><div class="fact-val">${f.v}</div></div>`).join('')}</div>
+  <div class="about-wrap"><p class="about-bio">I got into data because I liked finding things other people miss. Patterns, trends, what comes next — that's the part that hooks me. There's something satisfying about sitting with a messy dataset and slowly pulling out the signal.</p>
+    <div class="facts-list">
+      <div><div class="fact-lbl">School</div><div class="fact-val">University of Illinois Urbana-Champaign</div></div>
+      <div><div class="fact-lbl">Major</div><div class="fact-val">Statistics - CS Minor</div></div>
+      <div><div class="fact-lbl">Expected Graduation</div><div class="fact-val">'28</div></div>
+      <div><div class="fact-lbl">Focus areas</div><div class="fact-val">Data Analytics, ML, NLP, Data Storytelling</div></div>
+      <div><div class="fact-lbl">Clubs</div><div class="fact-val">SIGAIDA, STATcom</div></div>
+    </div>
   </div>
 </div>
 <div class="sec"><div class="sec-label">Skills</div>
-  <div class="skills-wrap">${curSkills.map(s=>`<div><div class="skill-group-title">${s.t}</div><div class="skill-list">${s.v.split(',').map(x=>x.trim()).filter(Boolean).join('<br>')}</div></div>`).join('')}</div>
+  <div class="skills-wrap">
+    <div><div class="skill-group-title">Languages</div><div class="skill-list">Python<br>SQL<br>Java<br>C++</div></div>
+    <div><div class="skill-group-title">Data & ML</div><div class="skill-list">Pandas<br>Tableau<br>RAG Pipelines<br>ChromaDB<br>scikit-learn</div></div>
+    <div><div class="skill-group-title">Tools</div><div class="skill-list">Flask<br>Streamlit<br>Git<br>Anthropic API</div></div>
+  </div>
 </div>
 <div class="sec" id="exp"><div class="sec-label">Experience</div>
-  <div class="exp-list">${curExps.map(e=>`<div class="exp-item"><div class="exp-date">${e.d}</div><div><div class="exp-role">${e.r}</div><div class="exp-org">${e.o}</div><div class="exp-desc">${e.x}</div></div></div>`).join('')}</div>
+  <div class="exp-list">
+    <div class="exp-item"><div class="exp-date">Summer 2026</div><div><div class="exp-role">Data Analyst Intern</div><div class="exp-org">[Company Name]</div><div class="exp-desc">Built automated data pipelines and Tableau dashboards to surface insights for internal stakeholders.</div></div></div>
+    <div class="exp-item"><div class="exp-date">2025 – present</div><div><div class="exp-role">Lead</div><div class="exp-org">STATcom · UIUC</div><div class="exp-desc">Leading a statistical consulting team helping campus organizations with data analysis and experimental design.</div></div></div>
+    <div class="exp-item"><div class="exp-date">2025 – present</div><div><div class="exp-role">Member, Frontend & ML Teams</div><div class="exp-org">SIGAIDA · UIUC</div><div class="exp-desc">Contributing to AI and data projects across frontend development and machine learning tracks.</div></div></div>
+  </div>
 </div>
 <div class="sec" id="projects"><div class="sec-label">Projects</div>
-  <div class="proj-list">${curProjs.map(p=>{
-    const sc=p.s==='live'?'live':p.s==='building'?'building':'';
-    const st=p.s==='live'?'Live':p.s==='building'?'In progress':'Coming soon';
-    const nm=p.l?`<a href="${p.l}" target="_blank">${p.n}</a>`:p.n;
-    const tgs=p.t.split(',').map(t=>t.trim()).filter(Boolean).map(t=>`<span class="proj-tag">${t}</span>`).join('');
-    return`<div class="proj-item"><div class="proj-status ${sc}">${st}</div><div><div class="proj-name">${nm}</div><div class="proj-desc">${p.d}</div><div class="proj-tags">${tgs}</div></div></div>`;
-  }).join('')}</div>
+  <div class="proj-list">
+    <div class="proj-item"><div class="proj-status building">In progress</div><div><div class="proj-name">KrishnaGPT</div><div class="proj-desc">A RAG app grounded in the Bhagavad Gita. Ask anything, get wisdom cited to the verse.</div><div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">ChromaDB</span><span class="proj-tag">Anthropic API</span><span class="proj-tag">RAG</span><span class="proj-tag">Flask</span></div></div></div>
+    <div class="proj-item"><div class="proj-status">Coming soon</div><div><div class="proj-name">Data Analysis Project</div><div class="proj-desc">EDA and insights on a real-world dataset — the kind of analysis that actually tells a story.</div><div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Pandas</span><span class="proj-tag">Matplotlib</span></div></div></div>
+    <div class="proj-item"><div class="proj-status live">Live</div><div><div class="proj-name">Internship Dashboards</div><div class="proj-desc">Data pipelines and Tableau dashboards built during my internship. Real data, real stakeholders.</div><div class="proj-tags"><span class="proj-tag">Tableau</span><span class="proj-tag">SQL</span><span class="proj-tag">Data Pipelines</span></div></div></div>
+  </div>
 </div>
 <div class="sec"><div class="sec-label">Miscellaneous</div>
-  <div class="misc-wrap">${misc.map(m=>`<div><div class="misc-label">${m.l}</div><div class="misc-val">${m.v}</div></div>`).join('')}</div>
+  <div class="misc-wrap">
+    <div><div class="misc-label">Currently reading</div><div class="misc-val">Storytelling with Data · Thinking Fast and Slow · Naked Statistics</div></div>
+    <div><div class="misc-label">Outside of code</div><div class="misc-val">Daily meditation, working towards my first pull-up, data storytelling reels on Instagram.</div></div>
+    <div><div class="misc-label">Fun fact</div><div class="misc-val">I'm building an AI that gives life advice grounded in the Bhagavad Gita. It cites the verse.</div></div>
+    <div><div class="misc-label">Ask me about</div><div class="misc-val">Data pipelines, statistical consulting, ancient philosophy, or visualising a distribution.</div></div>
+  </div>
 </div>
 <div class="sec" id="contact"><div class="sec-label">Contact</div>
   <div class="contact-line">Open to internships, collaborations, or just a good conversation about data.</div>
-  <div class="contact-links"><a href="mailto:${email}">Email</a><a href="${li}">LinkedIn</a><a href="${gh}">GitHub</a><a href="${tab}">Tableau</a></div>
+  <div class="contact-links"><a href="mailto:your@email.com">Email</a><a href="https://linkedin.com/in/yourhandle">LinkedIn</a><a href="https://github.com/yourhandle">GitHub</a><a href="https://public.tableau.com/yourprofile">Tableau</a></div>
 </div>
 <svg class="footer-svg" id="fl-svg" viewBox="0 0 700 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
 </div>
@@ -698,26 +136,6 @@ window.addEventListener('scroll',()=>{const sy=window.scrollY;ld.forEach((l,i)=>
 const fs=document.getElementById('fl-svg');
 if(fs){let h='';for(let i=0;i<16;i++){const x=((i/15)*680+10).toFixed(1);const sz=6+Math.random()*16;const cy=(28+Math.sin(i*0.8)*14).toFixed(1);const ro=(Math.random()*360).toFixed(0);h+='<ellipse cx="'+x+'" cy="'+cy+'" rx="'+(sz*0.42).toFixed(1)+'" ry="'+sz.toFixed(1)+'" fill="#1B3A0D" transform="rotate('+ro+' '+x+' '+cy+')" />';}fs.innerHTML=h;}
 })();
-<\/script>
-</body>
-</html>`;
-}
-
-// ── init ───────────────────────────────────────────────
-function ex(){
-  up();
-  const blob=new Blob([buildExport()],{type:'text/html'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='index.html';a.click();
-  URL.revokeObjectURL(url);
-}
-
-renderSkillEditor();
-renderExpEditor();
-renderProjEditor();
-initLeaves();
-drawFooter();
-up();
 </script>
 </body>
 </html>
