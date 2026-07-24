@@ -15,12 +15,9 @@ nav ul{display:flex;gap:2rem;list-style:none;}nav a{font-size:11px;font-weight:4
 .site{max-width:700px;margin:0 auto;padding:0 2.5rem 7rem;position:relative;z-index:1;}
 .hero{padding:6.5rem 0 4rem;}
 .hero-inner{display:grid;grid-template-columns:160px 1fr;gap:2.5rem;align-items:start;}
-.photo-frame{width:155px;height:185px;position:relative;flex-shrink:0;cursor:pointer;}
+.photo-frame{width:155px;height:185px;position:relative;flex-shrink:0;}
 .photo-frame svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
-.photo-placeholder,.photo-frame img{width:138px;height:168px;position:absolute;top:8px;left:8px;object-fit:cover;object-position:top center;clip-path:polygon(6% 0%, 94% 2%, 100% 6%, 98% 94%, 92% 100%, 5% 98%, 0% 92%, 2% 5%);}
-.photo-placeholder{background:var(--green-pale);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:background 0.15s;}
-.photo-placeholder:hover{background:#d6eac3;}
-.photo-placeholder span{font-size:9px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-light);text-align:center;line-height:1.5;padding:0 8px;}
+.photo-frame img{width:138px;height:168px;position:absolute;top:8px;left:8px;object-fit:cover;object-position:top center;clip-path:polygon(6% 0%, 94% 2%, 100% 6%, 98% 94%, 92% 100%, 5% 98%, 0% 92%, 2% 5%);}
 .hero-name{font-family:var(--fh);font-weight:300;font-size:clamp(44px,6vw,72px);line-height:0.95;letter-spacing:-0.01em;color:var(--ink);margin-bottom:1.5rem;}.hero-name .last{color:var(--green-mid);}
 .hero-tag{font-family:var(--fh);font-size:18px;font-weight:300;font-style:italic;color:var(--ink-mid);line-height:1.65;margin-bottom:2rem;}
 .hero-links{display:flex;gap:1.75rem;flex-wrap:wrap;}
@@ -69,7 +66,7 @@ nav ul{display:flex;gap:2rem;list-style:none;}nav a{font-size:11px;font-weight:4
 <div class="site">
 <div class="hero">
   <div class="hero-inner">
-    <div class="photo-frame" onclick="document.getElementById('photo-input').click()">
+    <div class="photo-frame">
       <svg viewBox="0 0 155 185" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 4 C40 1 110 0 144 6 C152 8 155 18 154 50 C153 90 156 140 150 172 C148 180 138 184 108 184 C78 184 30 186 12 182 C4 180 1 170 2 140 C3 100 0 50 4 20 C5 12 8 5 12 4Z" fill="none" stroke="#2D5016" stroke-width="1.5" opacity="0.35"/>
         <path d="M8 8 C36 3 112 2 146 8 C154 10 157 22 156 54 C155 96 158 144 152 176 C150 184 139 188 108 187 C76 187 28 190 8 186 C0 184 -3 172 -2 140 C-1 96 -4 46 2 18 C3 10 6 9 8 8Z" fill="none" stroke="#2D5016" stroke-width="0.5" opacity="0.18"/>
@@ -78,13 +75,8 @@ nav ul{display:flex;gap:2rem;list-style:none;}nav a{font-size:11px;font-weight:4
         <ellipse cx="8" cy="176" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(30 8 176)"/>
         <ellipse cx="148" cy="177" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(-30 148 177)"/>
       </svg>
-      <div class="photo-placeholder" id="photo-placeholder" style="display:none;">
-        <span style="font-size:22px;opacity:0.5;">🖼</span>
-        <span>Click to add photo</span>
-      </div>
       <img id="photo-img" src="photo.jpg" alt="Sanjana Kambhampati">
     </div>
-    <input type="file" id="photo-input" accept="image/*" style="display:none;">
     <div>
       <div class="hero-name">Sanjana<br><span class="last">Kambhampati</span></div>
       <div class="hero-tag">Stats student at UIUC with a thing for clean data, clear insights, and problems worth solving.</div>
@@ -149,20 +141,6 @@ ll.innerHTML=ld.map((l,i)=>'<svg class="leaf" id="lf'+i+'" style="left:'+l.x+'px
 window.addEventListener('scroll',()=>{const sy=window.scrollY;ld.forEach((l,i)=>{const el=document.getElementById('lf'+i);if(el){const o=sy*l.sp;el.style.transform='translateY('+o+'px) rotate('+(o*0.35)+'deg)';}});});
 const fs=document.getElementById('fl-svg');
 if(fs){let h='';for(let i=0;i<16;i++){const x=((i/15)*680+10).toFixed(1);const sz=6+Math.random()*16;const cy=(28+Math.sin(i*0.8)*14).toFixed(1);const ro=(Math.random()*360).toFixed(0);h+='<ellipse cx="'+x+'" cy="'+cy+'" rx="'+(sz*0.42).toFixed(1)+'" ry="'+sz.toFixed(1)+'" fill="#1B3A0D" transform="rotate('+ro+' '+x+' '+cy+')" />';}fs.innerHTML=h;}
-
-function setPhoto(dataUrl){
-  const img=document.getElementById('photo-img');
-  img.src=dataUrl; img.style.display='block';
-  document.getElementById('photo-placeholder').style.display='none';
-}
-document.getElementById('photo-input').addEventListener('change',e=>{
-  const file=e.target.files[0]; if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{ localStorage.setItem('sk-photo', ev.target.result); setPhoto(ev.target.result); };
-  reader.readAsDataURL(file);
-});
-const savedPhoto=localStorage.getItem('sk-photo');
-if(savedPhoto) setPhoto(savedPhoto);
 
 requestAnimationFrame(()=>document.querySelector('.hero').classList.add('in-view'));
 const revealObserver=new IntersectionObserver(entries=>{
