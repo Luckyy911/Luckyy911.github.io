@@ -15,8 +15,12 @@ nav ul{display:flex;gap:2rem;list-style:none;}nav a{font-size:11px;font-weight:4
 .site{max-width:700px;margin:0 auto;padding:0 2.5rem 7rem;position:relative;z-index:1;}
 .hero{padding:6.5rem 0 4rem;}
 .hero-inner{display:grid;grid-template-columns:160px 1fr;gap:2.5rem;align-items:start;}
-.photo-frame{width:155px;height:185px;position:relative;flex-shrink:0;}
+.photo-frame{width:155px;height:185px;position:relative;flex-shrink:0;cursor:pointer;}
 .photo-frame svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+.photo-placeholder,.photo-frame img{width:138px;height:168px;position:absolute;top:8px;left:8px;object-fit:cover;object-position:top center;clip-path:polygon(6% 0%, 94% 2%, 100% 6%, 98% 94%, 92% 100%, 5% 98%, 0% 92%, 2% 5%);}
+.photo-placeholder{background:var(--green-pale);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:background 0.15s;}
+.photo-placeholder:hover{background:#d6eac3;}
+.photo-placeholder span{font-size:9px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-light);text-align:center;line-height:1.5;padding:0 8px;}
 .hero-name{font-family:var(--fh);font-weight:300;font-size:clamp(44px,6vw,72px);line-height:0.95;letter-spacing:-0.01em;color:var(--ink);margin-bottom:1.5rem;}.hero-name .last{color:var(--green-mid);}
 .hero-tag{font-family:var(--fh);font-size:18px;font-weight:300;font-style:italic;color:var(--ink-mid);line-height:1.65;margin-bottom:2rem;}
 .hero-links{display:flex;gap:1.75rem;flex-wrap:wrap;}
@@ -53,6 +57,9 @@ nav ul{display:flex;gap:2rem;list-style:none;}nav a{font-size:11px;font-weight:4
 .contact-links{display:flex;gap:2rem;flex-wrap:wrap;}
 .contact-links a{font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.15s;}.contact-links a:hover{color:var(--orange);}
 .footer-svg{width:100%;height:56px;display:block;margin-top:5rem;opacity:0.12;}
+.hero,.sec{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease,transform 0.8s ease;}
+.hero.in-view,.sec.in-view{opacity:1;transform:translateY(0);}
+@media(prefers-reduced-motion:reduce){.hero,.sec{opacity:1;transform:none;transition:none;}}
 @media(max-width:640px){.about-wrap,.skills-wrap,.misc-wrap{grid-template-columns:1fr;}.exp-item,.proj-item{grid-template-columns:1fr;gap:0.75rem;}.hero-inner{grid-template-columns:1fr;}.photo-frame{margin:0 auto;}nav ul{display:none;}.leaf-layer{width:80px;}}
 </style>
 </head>
@@ -62,7 +69,7 @@ nav ul{display:flex;gap:2rem;list-style:none;}nav a{font-size:11px;font-weight:4
 <div class="site">
 <div class="hero">
   <div class="hero-inner">
-    <div class="photo-frame">
+    <div class="photo-frame" onclick="document.getElementById('photo-input').click()">
       <svg viewBox="0 0 155 185" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 4 C40 1 110 0 144 6 C152 8 155 18 154 50 C153 90 156 140 150 172 C148 180 138 184 108 184 C78 184 30 186 12 182 C4 180 1 170 2 140 C3 100 0 50 4 20 C5 12 8 5 12 4Z" fill="none" stroke="#2D5016" stroke-width="1.5" opacity="0.35"/>
         <path d="M8 8 C36 3 112 2 146 8 C154 10 157 22 156 54 C155 96 158 144 152 176 C150 184 139 188 108 187 C76 187 28 190 8 186 C0 184 -3 172 -2 140 C-1 96 -4 46 2 18 C3 10 6 9 8 8Z" fill="none" stroke="#2D5016" stroke-width="0.5" opacity="0.18"/>
@@ -71,12 +78,18 @@ nav ul{display:flex;gap:2rem;list-style:none;}nav a{font-size:11px;font-weight:4
         <ellipse cx="8" cy="176" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(30 8 176)"/>
         <ellipse cx="148" cy="177" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(-30 148 177)"/>
       </svg>
+      <div class="photo-placeholder" id="photo-placeholder" style="display:none;">
+        <span style="font-size:22px;opacity:0.5;">🖼</span>
+        <span>Click to add photo</span>
+      </div>
+      <img id="photo-img" src="photo.jpg" alt="Sanjana Kambhampati">
     </div>
+    <input type="file" id="photo-input" accept="image/*" style="display:none;">
     <div>
       <div class="hero-name">Sanjana<br><span class="last">Kambhampati</span></div>
       <div class="hero-tag">Stats student at UIUC with a thing for clean data, clear insights, and problems worth solving.</div>
       <div class="hero-links">
-        <a href="https://linkedin.com/in/yourhandle">LinkedIn</a><a href="https://github.com/yourhandle">GitHub</a><a href="https://public.tableau.com/yourprofile">Tableau</a>
+        <a href="https://www.linkedin.com/in/sanjana-kambhampati-6a5673279/">LinkedIn</a><a href="https://github.com/Luckyy911">GitHub</a><a href="https://public.tableau.com/app/profile/sanjana.kambhampati/vizzes">Tableau</a>
       </div>
     </div>
   </div>
@@ -87,43 +100,44 @@ nav ul{display:flex;gap:2rem;list-style:none;}nav a{font-size:11px;font-weight:4
       <div><div class="fact-lbl">School</div><div class="fact-val">University of Illinois Urbana-Champaign</div></div>
       <div><div class="fact-lbl">Major</div><div class="fact-val">Statistics - CS Minor</div></div>
       <div><div class="fact-lbl">Expected Graduation</div><div class="fact-val">'28</div></div>
-      <div><div class="fact-lbl">Focus areas</div><div class="fact-val">Data Analytics, ML, NLP, Data Storytelling</div></div>
-      <div><div class="fact-lbl">Clubs</div><div class="fact-val">SIGAIDA, STATcom</div></div>
+      <div><div class="fact-lbl">Focus areas</div><div class="fact-val">Data Analytics and Visualization, ML, Data Storytelling</div></div>
+      <div><div class="fact-lbl">Clubs</div><div class="fact-val">Agentic AI, STATcom, SIGAIDA</div></div>
     </div>
   </div>
 </div>
 <div class="sec"><div class="sec-label">Skills</div>
   <div class="skills-wrap">
     <div><div class="skill-group-title">Languages</div><div class="skill-list">Python<br>SQL<br>Java<br>C++</div></div>
-    <div><div class="skill-group-title">Data & ML</div><div class="skill-list">Pandas<br>Tableau<br>RAG Pipelines<br>ChromaDB<br>scikit-learn</div></div>
-    <div><div class="skill-group-title">Tools</div><div class="skill-list">Flask<br>Streamlit<br>Git<br>Anthropic API</div></div>
+    <div><div class="skill-group-title">Data & ML</div><div class="skill-list">Pandas<br>Tableau<br>RAG Pipelines<br>PowerBI<br>scikit-learn</div></div>
+    <div><div class="skill-group-title">Misc</div><div class="skill-list">Flask<br>Streamlit<br>LangGraph/LangChain<br>Anthropic API</div></div>
   </div>
 </div>
 <div class="sec" id="exp"><div class="sec-label">Experience</div>
   <div class="exp-list">
-    <div class="exp-item"><div class="exp-date">Summer 2026</div><div><div class="exp-role">Data Analyst Intern</div><div class="exp-org">[Company Name]</div><div class="exp-desc">Built automated data pipelines and Tableau dashboards to surface insights for internal stakeholders.</div></div></div>
-    <div class="exp-item"><div class="exp-date">2025 – present</div><div><div class="exp-role">Lead</div><div class="exp-org">STATcom · UIUC</div><div class="exp-desc">Leading a statistical consulting team helping campus organizations with data analysis and experimental design.</div></div></div>
-    <div class="exp-item"><div class="exp-date">2025 – present</div><div><div class="exp-role">Member, Frontend & ML Teams</div><div class="exp-org">SIGAIDA · UIUC</div><div class="exp-desc">Contributing to AI and data projects across frontend development and machine learning tracks.</div></div></div>
+    <div class="exp-item"><div class="exp-date">Summer 2026</div><div><div class="exp-role">Data Analyst Intern</div><div class="exp-org">Ascenta Group</div><div class="exp-desc">Working with donor data across nonprofit fundraising campaigns — datasets up to 846K records — to find what's driving results across markets and demographics. I build the dashboards that go into client QBRs and am currently building a Python validation system that catches financial discrepancies across a 224-office reporting workbook before they reach finance.</div></div></div>
+    <div class="exp-item"><div class="exp-date">Spring 2026</div><div><div class="exp-role">Data Analyst Intern</div><div class="exp-org">IDX Exchange</div><div class="exp-desc">Cleaned and transformed 100K+ real estate transaction records across 26 months, engineering metrics like price-per-sqft and days to contract. Built two Tableau workbooks with 8 dashboards — including one overlaying 30-year mortgage rates against median close price to show how rate shifts move the market.</div></div></div>
+    <div class="exp-item"><div class="exp-date">Summer 2025</div><div><div class="exp-role">Software Engineer Intern</div><div class="exp-org">Vibhu.VC</div><div class="exp-desc">Built an AI-driven platform matching angel investors with startups — contributed 1,000+ lines of code to a working prototype, including the compatibility scoring and recommendation features that power the matches.</div></div></div>
+    <div class="exp-item"><div class="exp-date">Summer 2025</div><div><div class="exp-role">Data Analyst Lead Intern</div><div class="exp-org">STEM-E</div><div class="exp-desc">Analyzed 10,000+ social media data points across 4 platforms to identify engagement trends, presenting monthly recommendations to cross-functional teams. Also coordinated a team of 15 interns to keep the analysis pipeline moving and deliverables on time.</div></div></div>
   </div>
 </div>
 <div class="sec" id="projects"><div class="sec-label">Projects</div>
   <div class="proj-list">
-    <div class="proj-item"><div class="proj-status building">In progress</div><div><div class="proj-name">KrishnaGPT</div><div class="proj-desc">A RAG app grounded in the Bhagavad Gita. Ask anything, get wisdom cited to the verse.</div><div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">ChromaDB</span><span class="proj-tag">Anthropic API</span><span class="proj-tag">RAG</span><span class="proj-tag">Flask</span></div></div></div>
-    <div class="proj-item"><div class="proj-status">Coming soon</div><div><div class="proj-name">Data Analysis Project</div><div class="proj-desc">EDA and insights on a real-world dataset — the kind of analysis that actually tells a story.</div><div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Pandas</span><span class="proj-tag">Matplotlib</span></div></div></div>
-    <div class="proj-item"><div class="proj-status live">Live</div><div><div class="proj-name">Internship Dashboards</div><div class="proj-desc">Data pipelines and Tableau dashboards built during my internship. Real data, real stakeholders.</div><div class="proj-tags"><span class="proj-tag">Tableau</span><span class="proj-tag">SQL</span><span class="proj-tag">Data Pipelines</span></div></div></div>
+    <div class="proj-item"><div class="proj-status building">Live</div><div><div class="proj-name">CATSense</div><div class="proj-desc">Built an AI diagnostic platform for Caterpillar equipment — integrated Gemini, Claude, and OpenAI with automatic provider fallback so it never goes down. Features include image inspection, audio anomaly detection, and sensor-based failure probability, all tied to a machine registry that tracks inspection history per equipment PIN.</div><div class="proj-tags"><span class="proj-tag">Next.js</span><span class="proj-tag">FastAPI</span><span class="proj-tag">Firebase</span><span class="proj-tag">RAG</span><span class="proj-tag">AWS Rekognition</span></div></div></div>
+    <div class="proj-item"><div class="proj-status">Live</div><div><div class="proj-name">PitchCraft - FPL AI Optimizer</div><div class="proj-desc">Built a multi-agent Fantasy Premier League optimizer using LangGraph and the Anthropic API — coordinating agents for squad selection, transfers, and captaincy. Includes a 7-node reasoning workflow and a backtesting pipeline tested across 38 historical gameweeks.</div><div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Langchain</span><span class="proj-tag">LangGraph</span></div></div></div>
+    <div class="proj-item"><div class="proj-status live">Live</div><div><div class="proj-name">Sigaida Campus Energy Dashboard</div><div class="proj-desc">Built a A comprehensive full-stack application for collecting, analyzing, and visualizing environmental data including air quality, weather, vegetation (NDVI), and transit information for the University of Illinois at Urbana-Champaign campus.</div><div class="proj-tags"><span class="proj-tag">Next.js</span><span class="proj-tag">Tailwind CSS</span><span class="proj-tag">FastAPI</span><span class="proj-tag">SQLite</span></div></div></div>
   </div>
 </div>
 <div class="sec"><div class="sec-label">Miscellaneous</div>
   <div class="misc-wrap">
-    <div><div class="misc-label">Currently reading</div><div class="misc-val">Storytelling with Data · Thinking Fast and Slow · Naked Statistics</div></div>
-    <div><div class="misc-label">Outside of code</div><div class="misc-val">Daily meditation, working towards my first pull-up, data storytelling reels on Instagram.</div></div>
-    <div><div class="misc-label">Fun fact</div><div class="misc-val">I'm building an AI that gives life advice grounded in the Bhagavad Gita. It cites the verse.</div></div>
+    <div><div class="misc-label">Currently reading</div><div class="misc-val">Storytelling with Data · Thinking Fast and Slow</div></div>
+    <div><div class="misc-label">Outside of code</div><div class="misc-val">working out, reading, and investing.</div></div>
+    <div><div class="misc-label">Fun fact</div><div class="misc-val">I post data storytelling content on Instagram! I just started though so am still figuring out the works.</div></div>
     <div><div class="misc-label">Ask me about</div><div class="misc-val">Data pipelines, statistical consulting, ancient philosophy, or visualising a distribution.</div></div>
   </div>
 </div>
 <div class="sec" id="contact"><div class="sec-label">Contact</div>
-  <div class="contact-line">Open to internships, collaborations, or just a good conversation about data.</div>
-  <div class="contact-links"><a href="mailto:your@email.com">Email</a><a href="https://linkedin.com/in/yourhandle">LinkedIn</a><a href="https://github.com/yourhandle">GitHub</a><a href="https://public.tableau.com/yourprofile">Tableau</a></div>
+  <div class="contact-line">Open to internships, collaborations, or just a good conversation!</div>
+  <div class="contact-links"><a href="mailto:sanjanakambhampati911@email.com">Email</a><a href="https://www.linkedin.com/in/sanjana-kambhampati-6a5673279/">LinkedIn</a><a href="https://github.com/Luckyy911">GitHub</a><a href="https://public.tableau.com/app/profile/sanjana.kambhampati/vizzes">Tableau</a></div>
 </div>
 <svg class="footer-svg" id="fl-svg" viewBox="0 0 700 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
 </div>
@@ -135,6 +149,28 @@ ll.innerHTML=ld.map((l,i)=>'<svg class="leaf" id="lf'+i+'" style="left:'+l.x+'px
 window.addEventListener('scroll',()=>{const sy=window.scrollY;ld.forEach((l,i)=>{const el=document.getElementById('lf'+i);if(el){const o=sy*l.sp;el.style.transform='translateY('+o+'px) rotate('+(o*0.35)+'deg)';}});});
 const fs=document.getElementById('fl-svg');
 if(fs){let h='';for(let i=0;i<16;i++){const x=((i/15)*680+10).toFixed(1);const sz=6+Math.random()*16;const cy=(28+Math.sin(i*0.8)*14).toFixed(1);const ro=(Math.random()*360).toFixed(0);h+='<ellipse cx="'+x+'" cy="'+cy+'" rx="'+(sz*0.42).toFixed(1)+'" ry="'+sz.toFixed(1)+'" fill="#1B3A0D" transform="rotate('+ro+' '+x+' '+cy+')" />';}fs.innerHTML=h;}
+
+function setPhoto(dataUrl){
+  const img=document.getElementById('photo-img');
+  img.src=dataUrl; img.style.display='block';
+  document.getElementById('photo-placeholder').style.display='none';
+}
+document.getElementById('photo-input').addEventListener('change',e=>{
+  const file=e.target.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{ localStorage.setItem('sk-photo', ev.target.result); setPhoto(ev.target.result); };
+  reader.readAsDataURL(file);
+});
+const savedPhoto=localStorage.getItem('sk-photo');
+if(savedPhoto) setPhoto(savedPhoto);
+
+requestAnimationFrame(()=>document.querySelector('.hero').classList.add('in-view'));
+const revealObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){ entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+  });
+},{threshold:0.15});
+document.querySelectorAll('.sec').forEach(sec=>revealObserver.observe(sec));
 })();
 </script>
 </body>
