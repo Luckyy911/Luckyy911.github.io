@@ -1,176 +1,842 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Sanjana Kambhampati</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root{--green:#1B3A0D;--green-mid:#2D5016;--green-soft:#6B9A45;--green-pale:#EDF3E6;--orange:#B84A18;--cream:#F6F1EA;--ink:#141210;--ink-mid:#141210;--ink-light:#4A4640;--warm-white:#FDFAF5;--border:rgba(20,18,16,0.1);--fh:'Cormorant',Georgia,serif;--fb:'Jost',system-ui,sans-serif;}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
-body{font-family:var(--fb);background:var(--cream);color:var(--ink);font-size:15px;line-height:1.7;overflow-x:hidden;}
-.leaf-layer{position:fixed;top:0;right:0;width:180px;height:100vh;pointer-events:none;z-index:0;overflow:hidden;}.leaf{position:absolute;opacity:0.07;}
-nav{position:fixed;top:0;left:0;right:0;background:rgba(246,241,234,0.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 2.5rem;height:50px;display:flex;align-items:center;justify-content:space-between;z-index:100;}
-.logo{font-family:var(--fh);font-size:19px;font-weight:400;color:var(--ink);text-decoration:none;}
-nav ul{display:flex;gap:2rem;list-style:none;}nav a{font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-light);text-decoration:none;transition:color 0.15s;}nav a:hover{color:var(--ink);}
-.site{max-width:700px;margin:0 auto;padding:0 2.5rem 7rem;position:relative;z-index:1;}
-.hero{padding:6.5rem 0 4rem;}
-.hero-inner{display:grid;grid-template-columns:160px 1fr;gap:2.5rem;align-items:start;}
-.photo-frame{width:155px;height:185px;position:relative;flex-shrink:0;}
-.photo-frame svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
-.photo-frame img{width:138px;height:168px;position:absolute;top:8px;left:8px;object-fit:cover;object-position:top center;clip-path:polygon(6% 0%, 94% 2%, 100% 6%, 98% 94%, 92% 100%, 5% 98%, 0% 92%, 2% 5%);}
-.hero-name{font-family:var(--fh);font-weight:300;font-size:clamp(44px,6vw,72px);line-height:0.95;letter-spacing:-0.01em;color:var(--ink);margin-bottom:1.5rem;}.hero-name .last{color:var(--green-mid);}
-.hero-tag{font-family:var(--fh);font-size:18px;font-weight:300;font-style:italic;color:var(--ink-mid);line-height:1.65;margin-bottom:2rem;}
-.hero-links{display:flex;gap:1.75rem;flex-wrap:wrap;}
-.hero-links a{font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.15s;}.hero-links a:hover{color:var(--orange);}.hero-links a.primary{color:var(--ink);font-weight:500;}
-.sec{padding:3.5rem 0;border-top:1px solid var(--border);}
-.sec-label{font-family:var(--fh);font-size:28px;font-weight:400;color:var(--ink);letter-spacing:-0.01em;margin-bottom:2rem;}
-.about-wrap{display:grid;grid-template-columns:1fr 200px;gap:3.5rem;align-items:start;}
-.about-bio{font-family:var(--fh);font-size:18px;font-weight:300;color:var(--ink-mid);line-height:1.85;}
-.facts-list{display:flex;flex-direction:column;gap:1.4rem;}
-.fact-lbl{font-size:10px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-light);margin-bottom:3px;}
-.fact-val{font-family:var(--fh);font-size:15px;font-weight:400;color:var(--ink);line-height:1.45;}
-.skills-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem 3rem;}
-.skill-group-title{font-size:10px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--green-mid);margin-bottom:0.6rem;}
-.skill-list{font-family:var(--fh);font-size:16px;font-weight:300;color:var(--ink-mid);line-height:2;}
-.exp-list{display:flex;flex-direction:column;gap:2.75rem;}
-.exp-item{display:grid;grid-template-columns:90px 1fr;gap:2rem;}
-.exp-date{font-size:11px;color:var(--ink-light);padding-top:3px;}
-.exp-role{font-family:var(--fh);font-size:19px;font-weight:400;color:var(--ink);margin-bottom:2px;line-height:1.2;}
-.exp-org{font-size:11px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--orange);margin-bottom:7px;}
-.exp-desc{font-size:13px;font-weight:400;color:var(--ink-mid);line-height:1.75;}
-.proj-list{display:flex;flex-direction:column;gap:3rem;}
-.proj-item{display:grid;grid-template-columns:90px 1fr;gap:2rem;}
-.proj-status{font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-light);padding-top:3px;}
-.proj-status.live{color:var(--green-soft);}.proj-status.building{color:var(--orange);}
-.proj-name{font-family:var(--fh);font-size:22px;font-weight:400;color:var(--ink);margin-bottom:0.4rem;line-height:1.15;}
-.proj-name a{color:inherit;text-decoration:none;border-bottom:1px solid var(--border);}
-.proj-desc{font-size:13px;font-weight:400;color:var(--ink-mid);line-height:1.75;margin-bottom:0.6rem;}
-.proj-tags{display:flex;flex-wrap:wrap;gap:8px;}
-.proj-tag{font-size:10px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--green-mid);}
-.proj-link{display:inline-block;margin-top:0.85rem;font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--green-mid);text-decoration:none;border-bottom:1px solid var(--green-mid);transition:color 0.15s,border-color 0.15s;}
-.proj-link:hover{color:var(--orange);border-color:var(--orange);}
-.misc-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:2.5rem 3.5rem;}
-.misc-label{font-size:10px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;}
-.misc-val{font-family:var(--fh);font-size:16px;font-weight:300;color:var(--ink-mid);line-height:1.7;}
-.contact-line{font-family:var(--fh);font-size:26px;font-weight:300;font-style:italic;color:var(--ink-mid);line-height:1.55;max-width:460px;margin-bottom:2rem;}
-.contact-form{display:flex;flex-direction:column;gap:1.15rem;max-width:460px;margin-bottom:2.5rem;}
-.form-row{display:flex;gap:1.5rem;flex-wrap:wrap;}
-.form-field{display:flex;flex-direction:column;gap:0.4rem;flex:1;min-width:180px;}
-.form-field label{font-size:10px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-light);}
-.form-field input,.form-field textarea{font-family:var(--fb);font-size:14px;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--border);padding:6px 2px;resize:vertical;transition:border-color 0.2s;}
-.form-field input:focus,.form-field textarea:focus{outline:none;border-color:var(--green-mid);}
-.form-submit{align-self:flex-start;font-family:var(--fb);font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink);background:transparent;border:1px solid var(--ink);border-radius:100px;padding:10px 26px;cursor:pointer;transition:background 0.2s,color 0.2s,border-color 0.2s;}
-.form-submit:hover{background:var(--orange);border-color:var(--orange);color:#fff;}
-.contact-links{display:flex;gap:2rem;flex-wrap:wrap;}
-.contact-links a{font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.15s;}.contact-links a:hover{color:var(--orange);}
-.footer-svg{width:100%;height:56px;display:block;margin-top:5rem;opacity:0.12;}
-.hero,.sec{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease,transform 0.8s ease;}
-.hero.in-view,.sec.in-view{opacity:1;transform:translateY(0);}
-@media(prefers-reduced-motion:reduce){.hero,.sec{opacity:1;transform:none;transition:none;}}
-@media(max-width:640px){.about-wrap,.skills-wrap,.misc-wrap{grid-template-columns:1fr;}.exp-item,.proj-item{grid-template-columns:1fr;gap:0.75rem;}.hero-inner{grid-template-columns:1fr;}.photo-frame{margin:0 auto;}nav ul{display:none;}.leaf-layer{width:80px;}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Sanjana Kambhampati</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --green: #1B3A0D;
+      --green-mid: #2D5016;
+      --green-soft: #6B9A45;
+      --green-pale: #EDF3E6;
+      --orange: #B84A18;
+      --cream: #F6F1EA;
+      --ink: #141210;
+      --ink-mid: #141210;
+      --ink-light: #4A4640;
+      --warm-white: #FDFAF5;
+      --border: rgba(20, 18, 16, 0.1);
+      --fh: 'Cormorant', Georgia, serif;
+      --fb: 'Jost', system-ui, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--fb);
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    .leaf-layer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 180px;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .leaf {
+      position: absolute;
+      opacity: 0.07;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(246, 241, 234, 0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2.5rem;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: var(--fh);
+      font-size: 19px;
+      font-weight: 400;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav a {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    nav a:hover {
+      color: var(--ink);
+    }
+
+    .site {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 2.5rem 7rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      padding: 6.5rem 0 4rem;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .photo-frame {
+      width: 155px;
+      height: 185px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .photo-frame svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .photo-frame img {
+      width: 138px;
+      height: 168px;
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      object-fit: cover;
+      object-position: top center;
+      clip-path: polygon(6% 0%, 94% 2%, 100% 6%, 98% 94%, 92% 100%, 5% 98%, 0% 92%, 2% 5%);
+    }
+
+    .hero-name {
+      font-family: var(--fh);
+      font-weight: 300;
+      font-size: clamp(44px, 6vw, 72px);
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-name .last {
+      color: var(--green-mid);
+    }
+
+    .hero-tag {
+      font-family: var(--fh);
+      font-size: 18px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink-mid);
+      line-height: 1.65;
+      margin-bottom: 2rem;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 1.75rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-links a {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .hero-links a:hover {
+      color: var(--orange);
+    }
+
+    .hero-links a.primary {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .sec {
+      padding: 3.5rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .sec-label {
+      font-family: var(--fh);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      margin-bottom: 2rem;
+    }
+
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: 3.5rem;
+      align-items: start;
+    }
+
+    .about-bio {
+      font-family: var(--fh);
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      line-height: 1.85;
+    }
+
+    .facts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .fact-lbl {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 3px;
+    }
+
+    .fact-val {
+      font-family: var(--fh);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.45;
+    }
+
+    .skills-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem 3rem;
+    }
+
+    .skill-group-title {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--green-mid);
+      margin-bottom: 0.6rem;
+    }
+
+    .skill-list {
+      font-family: var(--fh);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      line-height: 2;
+    }
+
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2.75rem;
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 2rem;
+    }
+
+    .exp-date {
+      font-size: 11px;
+      color: var(--ink-light);
+      padding-top: 3px;
+    }
+
+    .exp-role {
+      font-family: var(--fh);
+      font-size: 19px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 2px;
+      line-height: 1.2;
+    }
+
+    .exp-org {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 7px;
+    }
+
+    .exp-desc {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-mid);
+      line-height: 1.75;
+    }
+
+    .proj-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .proj-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 2rem;
+    }
+
+    .proj-status {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      padding-top: 3px;
+    }
+
+    .proj-status.live {
+      color: var(--green-soft);
+    }
+
+    .proj-status.building {
+      color: var(--orange);
+    }
+
+    .proj-name {
+      font-family: var(--fh);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+      line-height: 1.15;
+    }
+
+    .proj-name a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .proj-desc {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      margin-bottom: 0.6rem;
+    }
+
+    .proj-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .proj-tag {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--green-mid);
+    }
+
+    .proj-link {
+      display: inline-block;
+      margin-top: 0.85rem;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--green-mid);
+      text-decoration: none;
+      border-bottom: 1px solid var(--green-mid);
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .proj-link:hover {
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+
+    .misc-wrap {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem 3.5rem;
+    }
+
+    .misc-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 4px;
+    }
+
+    .misc-val {
+      font-family: var(--fh);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      line-height: 1.7;
+    }
+
+    .contact-line {
+      font-family: var(--fh);
+      font-size: 26px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink-mid);
+      line-height: 1.55;
+      max-width: 460px;
+      margin-bottom: 2rem;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+      max-width: 460px;
+      margin-bottom: 2.5rem;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .form-field label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    .form-field input,
+    .form-field textarea {
+      font-family: var(--fb);
+      font-size: 14px;
+      color: var(--ink);
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      padding: 6px 2px;
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+
+    .form-field input:focus,
+    .form-field textarea:focus {
+      outline: none;
+      border-color: var(--green-mid);
+    }
+
+    .form-submit {
+      align-self: flex-start;
+      font-family: var(--fb);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: transparent;
+      border: 1px solid var(--ink);
+      border-radius: 100px;
+      padding: 10px 26px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .form-submit:hover {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #fff;
+    }
+
+    .contact-links {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-links a {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .contact-links a:hover {
+      color: var(--orange);
+    }
+
+    .footer-svg {
+      width: 100%;
+      height: 56px;
+      display: block;
+      margin-top: 5rem;
+      opacity: 0.12;
+    }
+
+    .hero,
+    .sec {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .hero.in-view,
+    .sec.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+
+      .hero,
+      .sec {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    @media(max-width:640px) {
+
+      .about-wrap,
+      .skills-wrap,
+      .misc-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .exp-item,
+      .proj-item {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .photo-frame {
+        margin: 0 auto;
+      }
+
+      nav ul {
+        display: none;
+      }
+
+      .leaf-layer {
+        width: 80px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<div class="leaf-layer" id="ll" aria-hidden="true"></div>
-<nav><a href="#" class="logo">Sanjana Kambhampati</a><ul><li><a href="#about">About</a></li><li><a href="#exp">Experience</a></li><li><a href="#projects">Projects</a></li><li><a href="#contact">Contact</a></li></ul></nav>
-<div class="site">
-<div class="hero">
-  <div class="hero-inner">
-    <div class="photo-frame">
-      <svg viewBox="0 0 155 185" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 4 C40 1 110 0 144 6 C152 8 155 18 154 50 C153 90 156 140 150 172 C148 180 138 184 108 184 C78 184 30 186 12 182 C4 180 1 170 2 140 C3 100 0 50 4 20 C5 12 8 5 12 4Z" fill="none" stroke="#2D5016" stroke-width="1.5" opacity="0.35"/>
-        <path d="M8 8 C36 3 112 2 146 8 C154 10 157 22 156 54 C155 96 158 144 152 176 C150 184 139 188 108 187 C76 187 28 190 8 186 C0 184 -3 172 -2 140 C-1 96 -4 46 2 18 C3 10 6 9 8 8Z" fill="none" stroke="#2D5016" stroke-width="0.5" opacity="0.18"/>
-        <ellipse cx="6" cy="10" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(-30 6 10)"/>
-        <ellipse cx="149" cy="8" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(30 149 8)"/>
-        <ellipse cx="8" cy="176" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(30 8 176)"/>
-        <ellipse cx="148" cy="177" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(-30 148 177)"/>
-      </svg>
-      <img id="photo-img" src="photo.jpg" alt="Sanjana Kambhampati">
-    </div>
-    <div>
-      <div class="hero-name">Sanjana<br><span class="last">Kambhampati</span></div>
-      <div class="hero-tag">Stats student at UIUC with a thing for clean data, clear insights, and problems worth solving.</div>
-      <div class="hero-links">
-        <a href="mailto:sanjanakambhampati911@gmail.com">Email</a><a href="https://www.linkedin.com/in/sanjana-kambhampati-6a5673279/">LinkedIn</a><a href="https://github.com/Luckyy911">GitHub</a><a href="https://public.tableau.com/app/profile/sanjana.kambhampati/vizzes">Tableau</a>
+  <div class="leaf-layer" id="ll" aria-hidden="true"></div>
+  <nav><a href="#" class="logo">Sanjana Kambhampati</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#exp">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="site">
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="photo-frame">
+          <svg viewBox="0 0 155 185" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12 4 C40 1 110 0 144 6 C152 8 155 18 154 50 C153 90 156 140 150 172 C148 180 138 184 108 184 C78 184 30 186 12 182 C4 180 1 170 2 140 C3 100 0 50 4 20 C5 12 8 5 12 4Z"
+              fill="none" stroke="#2D5016" stroke-width="1.5" opacity="0.35" />
+            <path
+              d="M8 8 C36 3 112 2 146 8 C154 10 157 22 156 54 C155 96 158 144 152 176 C150 184 139 188 108 187 C76 187 28 190 8 186 C0 184 -3 172 -2 140 C-1 96 -4 46 2 18 C3 10 6 9 8 8Z"
+              fill="none" stroke="#2D5016" stroke-width="0.5" opacity="0.18" />
+            <ellipse cx="6" cy="10" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(-30 6 10)" />
+            <ellipse cx="149" cy="8" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(30 149 8)" />
+            <ellipse cx="8" cy="176" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(30 8 176)" />
+            <ellipse cx="148" cy="177" rx="4" ry="7" fill="#2D5016" opacity="0.2" transform="rotate(-30 148 177)" />
+          </svg>
+          <img id="photo-img" src="photo.jpg" alt="Sanjana Kambhampati">
+        </div>
+        <div>
+          <div class="hero-name">Sanjana<br><span class="last">Kambhampati</span></div>
+          <div class="hero-tag">Stats student at UIUC with a thing for clean data, clear insights, and problems worth
+            solving.</div>
+          <div class="hero-links">
+            <a href="mailto:sanjanakambhampati911@gmail.com">Email</a><a
+              href="https://www.linkedin.com/in/sanjana-kambhampati-6a5673279/">LinkedIn</a><a
+              href="https://github.com/Luckyy911">GitHub</a><a
+              href="https://public.tableau.com/app/profile/sanjana.kambhampati/vizzes">Tableau</a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="sec" id="about"><div class="sec-label">About</div>
-  <div class="about-wrap"><p class="about-bio">I got into data because I liked finding things other people miss. Figuring out what comes next, that's the part that hooks me. There's something satisfying about sitting with a messy dataset and slowly pulling out the signal.</p>
-    <div class="facts-list">
-      <div><div class="fact-lbl">School</div><div class="fact-val">University of Illinois Urbana-Champaign</div></div>
-      <div><div class="fact-lbl">Major</div><div class="fact-val">Statistics - CS Minor</div></div>
-      <div><div class="fact-lbl">Expected Graduation</div><div class="fact-val">'28</div></div>
-      <div><div class="fact-lbl">Focus areas</div><div class="fact-val">Data Analytics and Visualization, ML, Data Storytelling</div></div>
-      <div><div class="fact-lbl">Clubs</div><div class="fact-val">Agentic AI, STATcom, SIGAIDA</div></div>
+    <div class="sec" id="about">
+      <div class="sec-label">About</div>
+      <div class="about-wrap">
+        <p class="about-bio">I got into data because I liked finding things other people miss. Figuring out what comes
+          next, that's the part that hooks me. There's something satisfying about sitting with a messy dataset and
+          slowly pulling out the signal.</p>
+        <div class="facts-list">
+          <div>
+            <div class="fact-lbl">School</div>
+            <div class="fact-val">University of Illinois Urbana-Champaign</div>
+          </div>
+          <div>
+            <div class="fact-lbl">Major</div>
+            <div class="fact-val">Statistics - CS Minor</div>
+          </div>
+          <div>
+            <div class="fact-lbl">Expected Graduation</div>
+            <div class="fact-val">'28</div>
+          </div>
+          <div>
+            <div class="fact-lbl">Focus areas</div>
+            <div class="fact-val">Data Analytics and Visualization, ML, Data Storytelling</div>
+          </div>
+          <div>
+            <div class="fact-lbl">Clubs</div>
+            <div class="fact-val">Agentic AI, STATcom, SIGAIDA</div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="sec"><div class="sec-label">Skills</div>
-  <div class="skills-wrap">
-    <div><div class="skill-group-title">Languages</div><div class="skill-list">Python<br>SQL<br>Java<br>C++</div></div>
-    <div><div class="skill-group-title">Data & ML</div><div class="skill-list">Pandas<br>Tableau<br>RAG Pipelines<br>PowerBI<br>scikit-learn</div></div>
-    <div><div class="skill-group-title">Misc</div><div class="skill-list">Flask<br>Streamlit<br>LangGraph/LangChain<br>Anthropic API</div></div>
-  </div>
-</div>
-<div class="sec" id="exp"><div class="sec-label">Experience</div>
-  <div class="exp-list">
-    <div class="exp-item"><div class="exp-date">Summer 2026</div><div><div class="exp-role">Data Analyst Intern</div><div class="exp-org">Ascenta Group</div><div class="exp-desc">Working with donor data across nonprofit fundraising campaigns — datasets up to 846K records — to find what's driving results across markets and demographics. I build the dashboards that go into client QBRs and am currently building a Python validation system that catches financial discrepancies across a 224-office reporting workbook before they reach finance.</div></div></div>
-    <div class="exp-item"><div class="exp-date">Spring 2026</div><div><div class="exp-role">Data Analyst Intern</div><div class="exp-org">IDX Exchange</div><div class="exp-desc">Cleaned and transformed 100K+ real estate transaction records across 26 months, engineering metrics like price-per-sqft and days to contract. Built two Tableau workbooks with 8 dashboards — including one overlaying 30-year mortgage rates against median close price to show how rate shifts move the market.</div></div></div>
-    <div class="exp-item"><div class="exp-date">Summer 2025</div><div><div class="exp-role">Software Engineer Intern</div><div class="exp-org">Vibhu.VC</div><div class="exp-desc">Built an AI-driven platform matching angel investors with startups — contributed 1,000+ lines of code to a working prototype, including the compatibility scoring and recommendation features that power the matches.</div></div></div>
-    <div class="exp-item"><div class="exp-date">Summer 2025</div><div><div class="exp-role">Data Analyst Lead Intern</div><div class="exp-org">STEM-E</div><div class="exp-desc">Analyzed 10,000+ social media data points across 4 platforms to identify engagement trends, presenting monthly recommendations to cross-functional teams. Also coordinated a team of 15 interns to keep the analysis pipeline moving and deliverables on time.</div></div></div>
-  </div>
-</div>
-<div class="sec" id="projects"><div class="sec-label">Projects</div>
-  <div class="proj-list">
-    <div class="proj-item"><div class="proj-status live">Live</div><div><div class="proj-name">CATSense</div><div class="proj-desc">Built an AI diagnostic platform for Caterpillar equipment — integrated Gemini, Claude, and OpenAI with automatic provider fallback so it never goes down. Features include image inspection, audio anomaly detection, and sensor-based failure probability, all tied to a machine registry that tracks inspection history per equipment PIN.</div><div class="proj-tags"><span class="proj-tag">Next.js</span><span class="proj-tag">FastAPI</span><span class="proj-tag">Firebase</span><span class="proj-tag">RAG</span><span class="proj-tag">AWS Rekognition</span></div><a class="proj-link" href="https://devpost.com/software/catsense" target="_blank" rel="noopener">View Project →</a></div></div>
-    <div class="proj-item"><div class="proj-status live">Live</div><div><div class="proj-name">PitchCraft - FPL AI Optimizer</div><div class="proj-desc">Built a multi-agent Fantasy Premier League optimizer using LangGraph and the Anthropic API — coordinating agents for squad selection, transfers, and captaincy. Includes a 7-node reasoning workflow and a backtesting pipeline tested across 38 historical gameweeks.</div><div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Langchain</span><span class="proj-tag">LangGraph</span></div><a class="proj-link" href="https://pitchcraft-fpl.vercel.app/" target="_blank" rel="noopener">View Project →</a></div></div>
-    <div class="proj-item"><div class="proj-status live">Live</div><div><div class="proj-name">Sigaida Campus Energy Dashboard</div><div class="proj-desc">Built a A comprehensive full-stack application for collecting, analyzing, and visualizing environmental data including air quality, weather, vegetation (NDVI), and transit information for the University of Illinois at Urbana-Champaign campus.</div><div class="proj-tags"><span class="proj-tag">Next.js</span><span class="proj-tag">Tailwind CSS</span><span class="proj-tag">FastAPI</span><span class="proj-tag">SQLite</span></div><a class="proj-link" href="https://github.com/infoshubhjain/SIGAIDA-CAMPUS-ENERGY" target="_blank" rel="noopener">View Project →</a></div></div>
-  </div>
-</div>
-<div class="sec"><div class="sec-label">Miscellaneous</div>
-  <div class="misc-wrap">
-    <div><div class="misc-label">Currently reading</div><div class="misc-val">Storytelling with Data · Thinking Fast and Slow</div></div>
-    <div><div class="misc-label">Outside of code</div><div class="misc-val">working out, reading, and investing.</div></div>
-    <div><div class="misc-label">Fun fact</div><div class="misc-val">I post data storytelling content on Instagram! I just started though so am still figuring out the works.</div></div>
-    <div><div class="misc-label">Ask me about</div><div class="misc-val">Data pipelines, statistical consulting, ancient philosophy, or visualising a distribution.</div></div>
-  </div>
-</div>
-<div class="sec" id="contact"><div class="sec-label">Contact</div>
-  <div class="contact-line">Open to internships, collaborations, or just a good conversation!</div>
-  <form class="contact-form" action="https://formsubmit.co/sanjanakambhampati911@email.com" method="POST">
-    <input type="hidden" name="_subject" value="New message from your portfolio site">
-    <input type="hidden" name="_next" value="https://luckyy911.github.io/#contact">
-    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-    <div class="form-row">
-      <div class="form-field"><label for="cf-name">Name</label><input type="text" id="cf-name" name="name" required></div>
-      <div class="form-field"><label for="cf-email">Your email</label><input type="email" id="cf-email" name="email" required></div>
+    <div class="sec">
+      <div class="sec-label">Skills</div>
+      <div class="skills-wrap">
+        <div>
+          <div class="skill-group-title">Languages</div>
+          <div class="skill-list">Python<br>SQL<br>Java<br>C++</div>
+        </div>
+        <div>
+          <div class="skill-group-title">Data & ML</div>
+          <div class="skill-list">Pandas<br>Tableau<br>RAG Pipelines<br>PowerBI<br>scikit-learn</div>
+        </div>
+        <div>
+          <div class="skill-group-title">Misc</div>
+          <div class="skill-list">Flask<br>Streamlit<br>LangGraph/LangChain<br>Anthropic API</div>
+        </div>
+      </div>
     </div>
-    <div class="form-field"><label for="cf-message">Message</label><textarea id="cf-message" name="message" rows="5" required></textarea></div>
-    <button type="submit" class="form-submit">Send message</button>
-  </form>
-  <div class="contact-links"><a href="mailto:sanjanakambhampati911@email.com">Email</a><a href="https://www.linkedin.com/in/sanjana-kambhampati-6a5673279/">LinkedIn</a><a href="https://github.com/Luckyy911">GitHub</a><a href="https://public.tableau.com/app/profile/sanjana.kambhampati/vizzes">Tableau</a></div>
-</div>
-<svg class="footer-svg" id="fl-svg" viewBox="0 0 700 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
-</div>
-<script>
-(function(){
-const ld=[{x:10,y:90,s:32,r:18,sp:0.04},{x:65,y:210,s:22,r:-22,sp:0.07},{x:120,y:60,s:40,r:42,sp:0.03},{x:80,y:340,s:28,r:-6,sp:0.05},{x:15,y:460,s:44,r:58,sp:0.025},{x:150,y:380,s:18,r:-32,sp:0.08},{x:45,y:540,s:36,r:26,sp:0.035},{x:130,y:640,s:24,r:-44,sp:0.06},{x:5,y:720,s:30,r:68,sp:0.045},{x:100,y:800,s:42,r:-10,sp:0.03}];
-const ll=document.getElementById('ll');
-ll.innerHTML=ld.map((l,i)=>'<svg class="leaf" id="lf'+i+'" style="left:'+l.x+'px;top:'+l.y+'px;width:'+l.s+'px;height:'+l.s+'px;" viewBox="0 0 40 40"><path d="M20 3 C30 3 37 13 37 22 C37 31 29 37 20 37 C11 37 5 29 7 19 C9 10 13 3 20 3Z" fill="#1B3A0D" transform="rotate('+l.r+' 20 20)"/><path d="M20 6 Q22 20 20 36" stroke="#EDF3E6" stroke-width="0.8" fill="none" opacity="0.6" transform="rotate('+l.r+' 20 20)"/></svg>').join('');
-window.addEventListener('scroll',()=>{const sy=window.scrollY;ld.forEach((l,i)=>{const el=document.getElementById('lf'+i);if(el){const o=sy*l.sp;el.style.transform='translateY('+o+'px) rotate('+(o*0.35)+'deg)';}});});
-const fs=document.getElementById('fl-svg');
-if(fs){let h='';for(let i=0;i<16;i++){const x=((i/15)*680+10).toFixed(1);const sz=6+Math.random()*16;const cy=(28+Math.sin(i*0.8)*14).toFixed(1);const ro=(Math.random()*360).toFixed(0);h+='<ellipse cx="'+x+'" cy="'+cy+'" rx="'+(sz*0.42).toFixed(1)+'" ry="'+sz.toFixed(1)+'" fill="#1B3A0D" transform="rotate('+ro+' '+x+' '+cy+')" />';}fs.innerHTML=h;}
+    <div class="sec" id="exp">
+      <div class="sec-label">Experience</div>
+      <div class="exp-list">
+        <div class="exp-item">
+          <div class="exp-date">Summer 2026</div>
+          <div>
+            <div class="exp-role">Data Analyst Intern</div>
+            <div class="exp-org">Ascenta Group</div>
+            <div class="exp-desc">Working with donor data across nonprofit fundraising campaigns, which are datasets up
+              to 846K records, to find what's driving results across markets and demographics. Currently building
+              dashboards that go into client QBRs and at the moment building a Python validation system that catches
+              financial discrepancies across a 224-office reporting workbook before they reach finance.</div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-date">Spring 2026</div>
+          <div>
+            <div class="exp-role">Data Analyst Intern</div>
+            <div class="exp-org">IDX Exchange</div>
+            <div class="exp-desc">Cleaned and transformed 100K+ real estate transaction records across 26 months,
+              engineering metrics like price-per-sqft and days to contract. Built two Tableau workbooks with 8
+              dashboards, including one overlaying 30-year mortgage rates against median close price to show how rate
+              shifts move the market.</div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-date">Summer 2025</div>
+          <div>
+            <div class="exp-role">Software Engineer Intern</div>
+            <div class="exp-org">Vibhu.VC</div>
+            <div class="exp-desc">Built an AI-driven platform matching angel investors with startups. Contributed 1,000+
+              lines of code to a working prototype, including the compatibility scoring and recommendation features that
+              power the matches.</div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-date">Summer 2025</div>
+          <div>
+            <div class="exp-role">Data Analyst Lead Intern</div>
+            <div class="exp-org">STEM-E</div>
+            <div class="exp-desc">Analyzed 10,000+ social media data points across 4 platforms to identify engagement
+              trends, presenting monthly recommendations to cross-functional teams. Also coordinated a team of 15
+              interns to keep the analysis deliverables on time.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sec" id="projects">
+      <div class="sec-label">Projects</div>
+      <div class="proj-list">
+        <div class="proj-item">
+          <div class="proj-status live">Live</div>
+          <div>
+            <div class="proj-name">CATSense</div>
+            <div class="proj-desc">Built an AI diagnostic platform for Caterpillar equipment with integrated Gemini,
+              Claude, and OpenAI. Features include image inspection, audio anomaly detection, and sensor-based failure
+              probability and these are all tied to a machine registry that tracks inspection history per equipment PIN.
+            </div>
+            <div class="proj-tags"><span class="proj-tag">Next.js</span><span class="proj-tag">FastAPI</span><span
+                class="proj-tag">Firebase</span><span class="proj-tag">RAG</span><span class="proj-tag">AWS
+                Rekognition</span></div><a class="proj-link" href="https://devpost.com/software/catsense"
+              target="_blank" rel="noopener">View Project →</a>
+          </div>
+        </div>
+        <div class="proj-item">
+          <div class="proj-status live">Live</div>
+          <div>
+            <div class="proj-name">PitchCraft - FPL AI Optimizer</div>
+            <div class="proj-desc">Built a multi-agent Fantasy Premier League optimizer using LangGraph and the
+              Anthropic API. Coordinated agents for squad selection, transfers, and captaincy. Includes a 7-node
+              reasoning workflow and a backtesting pipeline tested across 38 historical gameweeks.</div>
+            <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Langchain</span><span
+                class="proj-tag">LangGraph</span></div><a class="proj-link" href="https://pitchcraft-fpl.vercel.app/"
+              target="_blank" rel="noopener">View Project →</a>
+          </div>
+        </div>
+        <div class="proj-item">
+          <div class="proj-status live">Live</div>
+          <div>
+            <div class="proj-name">Sigaida Campus Energy Dashboard</div>
+            <div class="proj-desc">Built a comprehensive full-stack application for collecting, analyzing, and
+              visualizing environmental data including air quality, weather, vegetation (NDVI), and transit information
+              for the University of Illinois at Urbana-Champaign campus.</div>
+            <div class="proj-tags"><span class="proj-tag">Next.js</span><span class="proj-tag">Tailwind CSS</span><span
+                class="proj-tag">FastAPI</span><span class="proj-tag">SQLite</span></div><a class="proj-link"
+              href="https://github.com/infoshubhjain/SIGAIDA-CAMPUS-ENERGY" target="_blank" rel="noopener">View Project
+              →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="sec-label">Miscellaneous</div>
+      <div class="misc-wrap">
+        <div>
+          <div class="misc-label">Currently reading</div>
+          <div class="misc-val">Storytelling with Data · Thinking Fast and Slow</div>
+        </div>
+        <div>
+          <div class="misc-label">Outside of code</div>
+          <div class="misc-val">working out, reading, and investing.</div>
+        </div>
+        <div>
+          <div class="misc-label">Fun fact</div>
+          <div class="misc-val">I post data storytelling content on Instagram! I just started though so am still
+            figuring out the works.</div>
+        </div>
+        <div>
+          <div class="misc-label">Ask me about</div>
+          <div class="misc-val">Data pipelines, statistical consulting, ancient philosophy, or visualising a
+            distribution.</div>
+        </div>
+      </div>
+    </div>
+    <div class="sec" id="contact">
+      <div class="sec-label">Contact</div>
+      <div class="contact-line">Open to internships, collaborations, or just a good conversation!</div>
+      <form class="contact-form" action="https://formsubmit.co/sanjanakambhampati911@email.com" method="POST">
+        <input type="hidden" name="_subject" value="New message from your portfolio site">
+        <input type="hidden" name="_next" value="https://luckyy911.github.io/#contact">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+        <div class="form-row">
+          <div class="form-field"><label for="cf-name">Name</label><input type="text" id="cf-name" name="name" required>
+          </div>
+          <div class="form-field"><label for="cf-email">Your email</label><input type="email" id="cf-email" name="email"
+              required></div>
+        </div>
+        <div class="form-field"><label for="cf-message">Message</label><textarea id="cf-message" name="message" rows="5"
+            required></textarea></div>
+        <button type="submit" class="form-submit">Send message</button>
+      </form>
+      <div class="contact-links"><a href="mailto:sanjanakambhampati911@email.com">Email</a><a
+          href="https://www.linkedin.com/in/sanjana-kambhampati-6a5673279/">LinkedIn</a><a
+          href="https://github.com/Luckyy911">GitHub</a><a
+          href="https://public.tableau.com/app/profile/sanjana.kambhampati/vizzes">Tableau</a></div>
+    </div>
+    <svg class="footer-svg" id="fl-svg" viewBox="0 0 700 56" xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"></svg>
+  </div>
+  <script>
+    (function () {
+      const ld = [{ x: 10, y: 90, s: 32, r: 18, sp: 0.04 }, { x: 65, y: 210, s: 22, r: -22, sp: 0.07 }, { x: 120, y: 60, s: 40, r: 42, sp: 0.03 }, { x: 80, y: 340, s: 28, r: -6, sp: 0.05 }, { x: 15, y: 460, s: 44, r: 58, sp: 0.025 }, { x: 150, y: 380, s: 18, r: -32, sp: 0.08 }, { x: 45, y: 540, s: 36, r: 26, sp: 0.035 }, { x: 130, y: 640, s: 24, r: -44, sp: 0.06 }, { x: 5, y: 720, s: 30, r: 68, sp: 0.045 }, { x: 100, y: 800, s: 42, r: -10, sp: 0.03 }];
+      const ll = document.getElementById('ll');
+      ll.innerHTML = ld.map((l, i) => '<svg class="leaf" id="lf' + i + '" style="left:' + l.x + 'px;top:' + l.y + 'px;width:' + l.s + 'px;height:' + l.s + 'px;" viewBox="0 0 40 40"><path d="M20 3 C30 3 37 13 37 22 C37 31 29 37 20 37 C11 37 5 29 7 19 C9 10 13 3 20 3Z" fill="#1B3A0D" transform="rotate(' + l.r + ' 20 20)"/><path d="M20 6 Q22 20 20 36" stroke="#EDF3E6" stroke-width="0.8" fill="none" opacity="0.6" transform="rotate(' + l.r + ' 20 20)"/></svg>').join('');
+      window.addEventListener('scroll', () => { const sy = window.scrollY; ld.forEach((l, i) => { const el = document.getElementById('lf' + i); if (el) { const o = sy * l.sp; el.style.transform = 'translateY(' + o + 'px) rotate(' + (o * 0.35) + 'deg)'; } }); });
+      const fs = document.getElementById('fl-svg');
+      if (fs) { let h = ''; for (let i = 0; i < 16; i++) { const x = ((i / 15) * 680 + 10).toFixed(1); const sz = 6 + Math.random() * 16; const cy = (28 + Math.sin(i * 0.8) * 14).toFixed(1); const ro = (Math.random() * 360).toFixed(0); h += '<ellipse cx="' + x + '" cy="' + cy + '" rx="' + (sz * 0.42).toFixed(1) + '" ry="' + sz.toFixed(1) + '" fill="#1B3A0D" transform="rotate(' + ro + ' ' + x + ' ' + cy + ')" />'; } fs.innerHTML = h; }
 
-requestAnimationFrame(()=>document.querySelector('.hero').classList.add('in-view'));
-const revealObserver=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){ entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
-  });
-},{threshold:0.15});
-document.querySelectorAll('.sec').forEach(sec=>revealObserver.observe(sec));
-})();
-</script>
+      requestAnimationFrame(() => document.querySelector('.hero').classList.add('in-view'));
+      const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.sec').forEach(sec => revealObserver.observe(sec));
+    })();
+  </script>
 </body>
+
 </html>
