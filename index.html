@@ -319,6 +319,31 @@
       line-height: 1.75;
     }
 
+    .exp-item.incoming {
+      border-left: 2px dashed var(--orange);
+      padding-left: 1.25rem;
+      margin-left: -1.5rem;
+    }
+
+    .exp-badge {
+      display: inline-block;
+      margin-left: 8px;
+      font-family: var(--fb);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange);
+      border: 1px solid var(--orange);
+      border-radius: 100px;
+      padding: 2px 8px;
+      vertical-align: middle;
+    }
+
+    .exp-item.incoming .exp-desc {
+      font-style: italic;
+    }
+
     .proj-list {
       display: flex;
       flex-direction: column;
@@ -683,6 +708,14 @@
     <div class="sec" id="exp">
       <div class="sec-label">Experience</div>
       <div class="exp-list">
+        <div class="exp-item incoming">
+          <div class="exp-date">Fall 2026</div>
+          <div>
+            <div class="exp-role">Data Consultant<span class="exp-badge">Incoming</span></div>
+            <div class="exp-org">UIUC</div>
+            <div class="exp-desc">Selected for a two-semester independent study (Stat 391) in statistical consulting — advanced modeling coursework this fall, then hands-on analysis for three assigned clients in spring, culminating in a presentation at the Undergraduate Research Experience in Statistics Symposium.</div>
+          </div>
+        </div>
         <div class="exp-item">
           <div class="exp-date">Summer 2026</div>
           <div>
